@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Board from './components/Board';
 import { ColumnsContext, TasksContext } from './context';
 import useStorage from './hooks';
@@ -16,21 +16,25 @@ function KanbanApp() {
             { id: 3, name: 'Task3', idColumn: 3, user: 'Janice' },
         ],
     };
+    // eslint-disable-next-line no-unused-vars
+    const [columns, setColumns] = useState(initialData.columns);
+    // eslint-disable-next-line no-unused-vars
+    const [tasks, setTasks] = useState(initialData.tasks);
 
-    const [getColumns, setColumns] = useStorage('columns', initialData.columns);
-    const [getTasks, setTasks] = useStorage('tasks', initialData.tasks);
+    const [getStoredColumns, setStoredColumns] = useStorage('columns', columns);
+    const [getStoredTasks, setStoredTasks] = useStorage('tasks', tasks);
 
     const { Provider: ColumnsProvider } = ColumnsContext;
     const { Provider: TasksProvider } = TasksContext;
 
     return (
         <ColumnsProvider
-            value={getColumns}
-            stateMethod={setColumns}
+            value={getStoredColumns}
+            stateMethod={setStoredColumns}
         >
             <TasksProvider
-                value={getTasks}
-                stateMethod={setTasks}
+                value={getStoredTasks}
+                stateMethod={setStoredTasks}
             >
                 <Board />
             </TasksProvider>
