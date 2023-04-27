@@ -1,7 +1,7 @@
 // ./src/app.js
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './components/App';
+import KanbanApp from './components/KanbanApp';
 
 const root = createRoot(document.querySelector('#root'));
-root.render(<App />);
+root.render(<KanbanApp />);
