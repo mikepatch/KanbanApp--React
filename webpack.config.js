@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 // importuję odpowiedni plugin
 module.exports = {
-    entry: './src/app.js',
+    entry: './src/index.js',
     // definiuje plik wejściowy
     mode: 'development',
     // definiuję tryb działania
     output: {
         path: path.resolve(__dirname, 'build'),
         // definiuje ścieżką wyjściową
-        filename: 'app.min.js',
+        filename: 'index.min.js',
         // definiuję nazwę pliku wyjściowego
     },
     module: {

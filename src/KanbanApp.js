@@ -1,6 +1,6 @@
 // ./src/components/App.js
 import React from 'react';
-import Board from './Board';
+import Board from './components/Board';
 
 function KanbanApp() {
     return <Board />;
