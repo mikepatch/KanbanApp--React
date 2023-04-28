@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Board from './components/Board';
 import { ColumnsContext, MoveTasksContext, TasksContext } from './context';
 import useStorage from './hooks';
+import { findTargetColumn, getNewIdColumn, getTasksCountInColumn } from './helpers/movingTask';
 
 function KanbanApp() {
     const initialData = {
@@ -25,19 +26,11 @@ function KanbanApp() {
     const [limitAlert, setLimitAlert] = useState(false);
 
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
-        let newIdColumn = idColumn;
+        const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
+        const targetColumn = findTargetColumn(columns, newIdColumn);
+        const tasksInTargetColumn = getTasksCountInColumn(tasks, newIdColumn);
 
-        if (currentTarget.id === 'next' && idColumn !== columns.length) {
-            newIdColumn = idColumn + 1;
-        } else if (currentTarget.id === 'prev' && idColumn !== 1) {
-            newIdColumn = idColumn - 1;
-        }
-
-        const targetColumn = columns.find((column) => column.id === newIdColumn);
-        const targetColumnLimit = targetColumn.limit;
-        const tasksInTargetColumn = tasks.filter((task) => task.idColumn === newIdColumn).length;
-
-        if (tasksInTargetColumn < targetColumnLimit) {
+        if (tasksInTargetColumn < targetColumn.limit) {
             setTasks((tasks) => {
                 const newTasks = tasks.map((task) => {
                     if (task.id === idTask) {
