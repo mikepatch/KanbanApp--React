@@ -19,7 +19,8 @@
         "quotes": ["error", "single"],
         "react/state-in-constructor": [0, "never"],
         "no-console": 0,
-        "func-names": ["error", "as-needed"]
+        "func-names": ["error", "as-needed"],
+        "no-shadow": "off"
     },
     "globals": {
         "window": true,

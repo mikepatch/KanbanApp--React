@@ -1,34 +1,32 @@
 import React from 'react';
 import Task from './Task';
-import { ColumnsContext, TasksContext } from '../context';
+import { TasksContext } from '../context';
 
-function Column() {
-    const { Consumer: ColumnsConsumer } = ColumnsContext;
+// eslint-disable-next-line react/prop-types
+function Column({ data: { id, name, limit } }) {
     const { Consumer: TasksConsumer } = TasksContext;
 
     return (
-        <ColumnsConsumer>
-            {(columns) =>
-                columns.map((column) => (
-                    <div key={column.id}>
-                        <h2>{column.name}</h2>
-                        <TasksConsumer key={column.id}>
-                            {(tasks) =>
-                                tasks.map(
-                                    (task) =>
-                                        column.id === task.idColumn && (
-                                            <Task
-                                                key={task.id}
-                                                data={task}
-                                            />
-                                        ),
-                                )
-                            }
-                        </TasksConsumer>
-                    </div>
-                ))
-            }
-        </ColumnsConsumer>
+        <TasksConsumer>
+            {(tasks) => (
+                <div className=" flex flex-col items-center w-full rounded-md">
+                    <h2 className="p-3 text-center w-full">
+                        {name} - {tasks.filter((task) => id === task.idColumn).length} / {limit}
+                    </h2>
+                    <ul className="flex flex-col gap-4 py-4 w-1/2">
+                        {tasks.map(
+                            (task) =>
+                                id === task.idColumn && (
+                                    <Task
+                                        key={task.id}
+                                        data={task}
+                                    />
+                                ),
+                        )}
+                    </ul>
+                </div>
+            )}
+        </TasksConsumer>
     );
 }
 
