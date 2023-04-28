@@ -7,7 +7,7 @@ function Board() {
     const { Consumer: ColumnsConsumer } = ColumnsContext;
 
     return (
-        <section className="md:flex justify-around gap-4 px-6">
+        <section className="md:flex md:max-w-screen-xl justify-around gap-4 px-6 mx-auto mt-6">
             <ColumnsConsumer>
                 {(columns) =>
                     columns.map((column) => (
