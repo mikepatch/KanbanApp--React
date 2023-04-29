@@ -7,6 +7,7 @@ import Form from './components/Form/Form';
 import Modal from './components/Modal';
 
 import {
+    ChangeColumnColorContext,
     ColumnsContext,
     MoveTasksContext,
     RemoveColumnContext,
@@ -93,6 +94,20 @@ function KanbanApp() {
         setTasks(getArrayWithoutSpecifiedItem(tasks, idToRemove));
     };
 
+    const handleChangeColumnColor = (idColumn, newColor) => {
+        setColumns((columns) => {
+            const newColumns = columns.map((column) => {
+                if (column.id === idColumn) {
+                    return { ...column, columnColor: newColor };
+                }
+
+                return column;
+            });
+
+            return newColumns;
+        });
+    };
+
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
         const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
 
@@ -124,6 +139,7 @@ function KanbanApp() {
     const { Provider: MoveTasksProvider } = MoveTasksContext;
     const { Provider: RemoveColumnProvider } = RemoveColumnContext;
     const { Provider: RemoveTaskProvider } = RemoveTaskContext;
+    const { Provider: ChangeColumnColorProvider } = ChangeColumnColorContext;
 
     return (
         <>
@@ -138,7 +154,9 @@ function KanbanApp() {
                             <TasksProvider value={tasks}>
                                 <MoveTasksProvider value={handleMoveTask}>
                                     <RemoveTaskProvider value={handleRemoveTask}>
-                                        <Board />
+                                        <ChangeColumnColorProvider value={handleChangeColumnColor}>
+                                            <Board />
+                                        </ChangeColumnColorProvider>
                                     </RemoveTaskProvider>
                                 </MoveTasksProvider>
                             </TasksProvider>
