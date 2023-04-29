@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuid } from 'uuid';
+
 import Board from './components/Board';
 import {
     ColumnsContext,
@@ -31,11 +34,27 @@ function KanbanApp() {
         ],
     };
 
-    const [columns, setColumns] = useStorage('columns', initialData.columns);
-    const [tasks, setTasks] = useStorage('tasks', initialData.tasks);
+    const [columnsStorage, setColumnsStorage] = useStorage('columns');
+    const [tasksStorage, setTasksStorage] = useStorage('tasks');
+    const [columns, setColumns] = useState(() => {
+        const storedData = columnsStorage || initialData.columns;
+        return storedData;
+    });
+    const [tasks, setTasks] = useState(() => {
+        const storedData = tasksStorage || initialData.tasks;
+        return storedData;
+    });
     const [isLimitAlert, setLimitAlert] = useState(false);
     const [isTaskForm, setTaskForm] = useState(false);
     const [isColumnForm, setColumnForm] = useState(false);
+
+    useEffect(() => {
+        setColumnsStorage(columns);
+    }, [columns, setColumnsStorage]);
+
+    useEffect(() => {
+        setTasksStorage(tasks);
+    }, [tasks, setTasksStorage]);
 
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
         const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
@@ -76,7 +95,7 @@ function KanbanApp() {
     };
 
     const handleAddTask = (data) => {
-        const newTask = { id: tasks.length + 1, idColumn: 1, ...data };
+        const newTask = { id: uuid(), idColumn: 1, ...data };
 
         setTasks((tasks) => [...tasks, newTask]);
     };
@@ -87,12 +106,18 @@ function KanbanApp() {
         setColumns((columns) => [...columns, newColumn]);
     };
 
-    const handleRemoveColumn = (id) => {
-        console.log('remove', id);
+    const handleRemoveColumn = (idToRemove) => {
+        console.log('remove', idToRemove);
+        const newColumns = columns.filter((column) => column.id !== idToRemove);
+
+        setColumns(newColumns);
     };
 
-    const handleRemoveTask = (id) => {
-        console.log('remove', id);
+    const handleRemoveTask = (idToRemove) => {
+        console.log('remove', idToRemove);
+        const newTasks = tasks.filter((task) => task.id !== idToRemove);
+
+        setTasks(newTasks);
     };
 
     const { Provider: ColumnsProvider } = ColumnsContext;

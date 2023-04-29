@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const useStorage = (key, initialData) => {
+const useStorage = (key) => {
     const [storedData, setStoredData] = useState(() => {
         try {
             const item = window.localStorage.getItem(key);
 
-            return item ? JSON.parse(item) : initialData;
+            return item ? JSON.parse(item) : null;
         } catch (error) {
             console.error(error);
 
-            return initialData;
+            return null;
         }
     });
 

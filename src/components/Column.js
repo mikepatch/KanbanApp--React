@@ -12,7 +12,7 @@ function Column({ data: { id, columnColor, columnName, limit } }) {
             {(handleRemoveColumn) => (
                 <TasksConsumer>
                     {(tasks) => (
-                        <div className="flex flex-col items-center w-full rounded-md">
+                        <div className="flex flex-col max-w-md items-center w-full rounded-md">
                             <header className="flex justify-between p-3 text-center w-full">
                                 <h2 className="relative">
                                     {' '}
