@@ -14,9 +14,9 @@ function Column({ data: { id, columnColor, columnName, limit } }) {
             {(handleRemoveColumn) => (
                 <TasksConsumer>
                     {(tasks) => (
-                        <div className="flex flex-col max-w-md items-center w-full rounded-md">
+                        <div className="flex flex-col mx-auto md:mx-0 max-w-md  w-full rounded-md">
                             <header className="flex justify-between p-3 text-center w-full">
-                                <h2 className="relative">
+                                <h2 className="relative text-2xl lg:text-3xl">
                                     <div
                                         className="mr-2 inline-block w-4 h-4 self-center rounded-full"
                                         style={{ backgroundColor: `${columnColor}` }}
