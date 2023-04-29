@@ -15,7 +15,7 @@ import {
 } from './context';
 import {
     getArrayWithNewData,
-    getColumnsWithoutIdToRemove,
+    getArrayWithoutSpecifiedItem,
     getNewIdColumn,
     isColumnFull,
 } from './utilities/helpers';
@@ -90,13 +90,11 @@ function KanbanApp() {
     };
 
     const handleRemoveColumn = (idToRemove) => {
-        setColumns(getColumnsWithoutIdToRemove(columns, idToRemove));
+        setColumns(getArrayWithoutSpecifiedItem(columns, idToRemove));
     };
 
     const handleRemoveTask = (idToRemove) => {
-        const newTasks = tasks.filter((task) => task.id !== idToRemove);
-
-        setTasks(newTasks);
+        setTasks(getArrayWithoutSpecifiedItem(tasks, idToRemove));
     };
 
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
