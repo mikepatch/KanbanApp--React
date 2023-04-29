@@ -1,11 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../context';
 
-// eslint-disable-next-line react/prop-types
 function Task({ data: { id, idColumn, taskName, userName } }) {
     const { Consumer: MoveTasksConsumer } = MoveTasksContext;
     const { Consumer: ColumnsConsumer } = ColumnsContext;
@@ -48,7 +46,9 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                <FontAwesomeIcon icon={icon({name: 'chevron-left'})}/>
+                                                <FontAwesomeIcon
+                                                    icon={icon({ name: 'chevron-left' })}
+                                                />
                                             </button>
                                         ) : null}
                                         {idColumn !== columns.length ? (
@@ -63,7 +63,9 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                <FontAwesomeIcon icon={icon({name: 'chevron-right'})}/>
+                                                <FontAwesomeIcon
+                                                    icon={icon({ name: 'chevron-right' })}
+                                                />
                                             </button>
                                         ) : null}
                                     </div>

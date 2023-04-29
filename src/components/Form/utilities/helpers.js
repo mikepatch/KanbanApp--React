@@ -1,7 +1,13 @@
 export const getInitialInputs = (fields) => {
     let initialInputs = {};
-    // eslint-disable-next-line no-return-assign
-    fields.forEach(({ name }) => (initialInputs = { ...initialInputs, [name]: '' }));
+    
+    fields.forEach(({ name, type, value }) => {
+        if (type !== 'color') {
+            initialInputs = { ...initialInputs, [name]: '' };
+        } else {
+            initialInputs = { ...initialInputs, [name]: value };
+        }
+    });
 
     return initialInputs;
 };

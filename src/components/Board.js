@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Column from './Column';
+
 import { ColumnsContext } from '../context';
 
 function Board() {

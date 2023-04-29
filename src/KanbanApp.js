@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuid } from 'uuid';
 
+import Header from './components/Header';
 import Board from './components/Board';
 import Form from './components/Form/Form';
 import Modal from './components/Modal';
 
+import useStorage from './hooks';
 import {
     ChangeColumnColorContext,
     ColumnsContext,
@@ -21,10 +22,7 @@ import {
     getNewIdColumn,
     isColumnFull,
 } from './utilities/helpers';
-import useStorage from './hooks';
-
 import formsOptions from './components/Form/utilities/formsOptions';
-import Header from './components/Header';
 
 function KanbanApp() {
     const initialData = {

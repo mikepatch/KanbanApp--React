@@ -1,13 +1,13 @@
 import React from 'react';
+
 import Button from './Button';
+
 import buttonsOptions from '../utilities/buttonsOptions';
 import { accessibleOnClick } from '../utilities/helpers';
 
-// eslint-disable-next-line react/prop-types
 function Modal({ title, text, closeModal }) {
     return (
         <aside
-            // eslint-disable-next-line react/jsx-props-no-spreading
             {...accessibleOnClick(closeModal)}
             className="flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-60 z-50"
         >

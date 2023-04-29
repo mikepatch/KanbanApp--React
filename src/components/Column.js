@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
+
 import Task from './Task';
-import { ChangeColumnColorContext, RemoveColumnContext, TasksContext } from '../context';
 import Button from './Button';
+
+import { ChangeColumnColorContext, RemoveColumnContext, TasksContext } from '../context';
 import buttonsOptions from '../utilities/buttonsOptions';
 
 function Column({ data: { id, columnColor, columnName, limit } }) {
@@ -24,7 +24,7 @@ function Column({ data: { id, columnColor, columnName, limit } }) {
                                     <header className="flex justify-between p-3 text-center w-full">
                                         <h2 className="relative text-2xl lg:text-3xl">
                                             <div
-                                                className="relative hover:scale-110 mr-2 inline-block w-4 h-4 self-center rounded-full transition-all"
+                                                className="relative hover:scale-110 mr-2 inline-block w-4 h-4 rounded-full transition-all outline outline-2"
                                                 style={{ backgroundColor: `${columnColor}` }}
                                             >
                                                 <input

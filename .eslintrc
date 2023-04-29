@@ -20,7 +20,15 @@
         "react/state-in-constructor": [0, "never"],
         "no-console": 0,
         "func-names": ["error", "as-needed"],
-        "no-shadow": "off"
+        "no-shadow": "off",
+        "react/prop-types": 0,
+        "react/jsx-props-no-spreading": [
+            {
+                "html": "ignore",
+                "custom": "ignore",
+                "explicitSpread": "ignore"
+            }
+        ]
     },
     "globals": {
         "window": true,

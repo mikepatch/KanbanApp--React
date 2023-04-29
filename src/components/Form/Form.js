@@ -1,7 +1,8 @@
-/* eslint-disable react/prop-types */
 import React, { useReducer, useState } from 'react';
+
 import FormField from './components/FormField';
 import SuccessModal from './components/SuccessModal';
+
 import FormValidator from '../../utilities/FormValidator';
 import {
     areFormErrorsEmpty,
@@ -12,7 +13,6 @@ import {
 import { accessibleOnClick } from '../../utilities/helpers';
 
 const formValidator = new FormValidator();
-// eslint-disable-next-line no-unused-vars
 function Form({
     options: { formModalStyles, formElementStyles, formButtonStyles, title, fields },
     closeForm,
@@ -62,7 +62,6 @@ function Form({
 
     return (
         <aside
-            // eslint-disable-next-line react/jsx-props-no-spreading
             {...accessibleOnClick(closeForm)}
             className={formModalStyles}
         >
@@ -83,6 +82,7 @@ function Form({
             </form>
             {modal && (
                 <SuccessModal
+                    styles={formModalStyles}
                     onClick={() => setModal(false)}
                     text={inputValues.fullName}
                 />

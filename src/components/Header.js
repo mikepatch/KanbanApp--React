@@ -1,9 +1,9 @@
 import React from 'react';
 
-import buttonsOptions from '../utilities/buttonsOptions';
 import Button from './Button';
 
-// eslint-disable-next-line react/prop-types
+import buttonsOptions from '../utilities/buttonsOptions';
+
 function Header({ showAddTaskForm, showAddColumnForm }) {
     return (
         <header className="sticky z-50 top-0 items-center flex justify-between px-4 py-4 md:px-8 bg-zinc-600 drop-shadow-md">

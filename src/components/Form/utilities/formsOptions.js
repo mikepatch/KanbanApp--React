@@ -91,6 +91,7 @@ const formsOptions = {
                 pattern: false,
                 errorMessage: false,
                 styles: colorInputStyles,
+                value: '#00ff00',
             },
         ],
     },
