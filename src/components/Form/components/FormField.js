@@ -13,17 +13,15 @@ function FormField({
         value,
         onChange,
         rows,
+        styles,
     },
 }) {
-    const className =
-        'border border-zinc-500 p-2 rounded-md text-white bg-transparent focus-visible:outline-blue-500 focus-visible:outline focus-visible:outline-2';
-
     return (
         <div className="flex flex-col gap-1">
             <label htmlFor={id}>{label}</label>
             {textarea ? (
                 <textarea
-                    className={className}
+                    className={styles}
                     id={id}
                     name={name}
                     placeholder={placeholder}
@@ -33,7 +31,7 @@ function FormField({
                 />
             ) : (
                 <input
-                    className={className}
+                    className={styles}
                     id={id}
                     name={name}
                     type={type}

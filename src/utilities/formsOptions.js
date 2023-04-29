@@ -1,8 +1,12 @@
 /* eslint-disable quotes */
+const textInputStyles =
+    'border border-zinc-500 p-2 rounded-md text-white bg-transparent focus-visible:outline-blue-500 focus-visible:outline focus-visible:outline-2';
+const colorInputStyles = 'bg-transparent';
 
 const formsOptions = {
     addTaskForm: {
         title: 'Add task',
+
         fields: [
             {
                 label: 'Task name',
@@ -13,6 +17,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
+                styles: textInputStyles,
             },
             {
                 label: 'Your name',
@@ -23,6 +28,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
+                styles: textInputStyles,
             },
             {
                 label: 'Description',
@@ -33,9 +39,10 @@ const formsOptions = {
                     'e.g We are hungry. We need to think about the best way to order a delicious pizza.',
                 required: true,
                 pattern: '',
-                errorMessage: 'Name is invalid.',
+                errorMessage: 'Description is invalid.',
                 rows: 5,
                 textarea: true,
+                styles: textInputStyles,
             },
         ],
     },
@@ -51,6 +58,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
+                styles: textInputStyles,
             },
             {
                 label: 'Tasks limit',
@@ -61,6 +69,18 @@ const formsOptions = {
                 required: true,
                 pattern: '^[1-9][0-9]*$',
                 errorMessage: 'Maximum tasks number is invalid',
+                styles: textInputStyles,
+            },
+            {
+                label: 'Add column color',
+                name: 'columnColor',
+                id: 'columnColor',
+                type: 'color',
+                placeholder: '',
+                required: false,
+                pattern: false,
+                errorMessage: false,
+                styles: colorInputStyles,
             },
         ],
     },

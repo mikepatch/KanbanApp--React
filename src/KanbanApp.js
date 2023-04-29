@@ -2,7 +2,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import Board from './components/Board';
-import { ColumnsContext, MoveTasksContext, TasksContext } from './context';
+import {
+    ColumnsContext,
+    MoveTasksContext,
+    RemoveColumnContext,
+    RemoveTaskContext,
+    TasksContext,
+} from './context';
 import useStorage from './hooks';
 import { findTargetColumn, getNewIdColumn, getTasksCountInColumn } from './utilities/helpers';
 import Button from './components/Button';
@@ -13,9 +19,9 @@ import buttonsOptions from './utilities/buttonsOptions';
 function KanbanApp() {
     const initialData = {
         columns: [
-            { id: 1, columnName: 'TO-DO', limit: 4 },
-            { id: 2, columnName: 'In-progress', limit: 3 },
-            { id: 3, columnName: 'Done', limit: 2 },
+            { id: 1, columnColor: '#ddd', columnName: 'TO-DO', limit: 4 },
+            { id: 2, columnColor: '#00f', columnName: 'In-progress', limit: 3 },
+            { id: 3, columnColor: '#f00', columnName: 'Done', limit: 2 },
         ],
         tasks: [
             { id: 1, taskName: 'Task1', idColumn: 1, userName: 'John' },
@@ -81,9 +87,19 @@ function KanbanApp() {
         setColumns((columns) => [...columns, newColumn]);
     };
 
+    const handleRemoveColumn = (id) => {
+        console.log('remove', id);
+    };
+
+    const handleRemoveTask = (id) => {
+        console.log('remove', id);
+    };
+
     const { Provider: ColumnsProvider } = ColumnsContext;
     const { Provider: TasksProvider } = TasksContext;
     const { Provider: MoveTasksProvider } = MoveTasksContext;
+    const { Provider: RemoveColumnProvider } = RemoveColumnContext;
+    const { Provider: RemoveTaskProvider } = RemoveTaskContext;
 
     return (
         <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen text-white">
@@ -109,12 +125,16 @@ function KanbanApp() {
 
             <main>
                 <ColumnsProvider value={columns}>
-                    <TasksProvider value={tasks}>
-                        <MoveTasksProvider value={handleMoveTask}>
-                            <Board />
-                            {isLimitAlert && <h1>Osiągnięto limit!!</h1>}
-                        </MoveTasksProvider>
-                    </TasksProvider>
+                    <RemoveColumnProvider value={handleRemoveColumn}>
+                        <TasksProvider value={tasks}>
+                            <MoveTasksProvider value={handleMoveTask}>
+                                <RemoveTaskProvider value={handleRemoveTask}>
+                                    <Board />
+                                    {isLimitAlert && <h1>Osiągnięto limit!!</h1>}
+                                </RemoveTaskProvider>
+                            </MoveTasksProvider>
+                        </TasksProvider>
+                    </RemoveColumnProvider>
                 </ColumnsProvider>
             </main>
             {isTaskForm && (

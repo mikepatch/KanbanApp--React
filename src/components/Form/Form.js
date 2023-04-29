@@ -77,7 +77,7 @@ function Form({ options: { className, title, fields }, closeForm, onSubmit }) {
         >
             <form
                 noValidate
-                className="flex flex-col gap-6 py-10 px-10 bg-zinc-600 drop-shadow-sm rounded-md w-11/12 max-w-md"
+                className="flex flex-col gap-6 py-10 px-10 bg-zinc-600 drop-shadow-sm rounded-md w-11/12 max-w-md animate-slide-from-t"
                 onSubmit={(e) => handleSubmit(e)}
             >
                 <h2>{title}</h2>
