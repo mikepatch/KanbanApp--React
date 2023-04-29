@@ -2,11 +2,12 @@
 import React, { useReducer, useState } from 'react';
 import FormField from './components/FormField';
 import SuccessModal from './components/SuccessModal';
-import FormValidator from '../../helpers/FormValidator';
+import FormValidator from '../../utilities/FormValidator';
+import { accessibleOnClick } from '../../utilities/helpers';
 
 const formValidator = new FormValidator();
 // eslint-disable-next-line no-unused-vars
-function Form({ options: { className, title, fields }, onClick, onSubmit }) {
+function Form({ options: { className, title, fields }, closeForm, onSubmit }) {
     let initialInputs = {};
     // eslint-disable-next-line no-return-assign
     fields.forEach(({ name }) => (initialInputs = { ...initialInputs, [name]: '' }));
@@ -45,15 +46,9 @@ function Form({ options: { className, title, fields }, onClick, onSubmit }) {
         if (areFormErrorsEmpty(errors)) {
             onSubmit(getFormData());
             clearInputs();
-            onClick();
+            closeForm();
         } else {
             setFormErrors(errors);
-        }
-    };
-
-    const handleHide = (e) => {
-        if (e.target.tagName === 'ASIDE') {
-            onClick();
         }
     };
 
@@ -76,8 +71,8 @@ function Form({ options: { className, title, fields }, onClick, onSubmit }) {
 
     return (
         <aside
-            aria-hidden
-            onClick={handleHide}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...accessibleOnClick(closeForm)}
             className="flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50"
         >
             <form

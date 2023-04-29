@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Board from './components/Board';
 import { ColumnsContext, MoveTasksContext, TasksContext } from './context';
 import useStorage from './hooks';
-import { findTargetColumn, getNewIdColumn, getTasksCountInColumn } from './helpers/movingTask';
+import { findTargetColumn, getNewIdColumn, getTasksCountInColumn } from './utilities/helpers';
 import Button from './components/Button';
 import Form from './components/Form/Form';
-import formsOptions from './helpers/formsOptions';
-import buttonsOptions from './helpers/buttonsOptions';
+import formsOptions from './utilities/formsOptions';
+import buttonsOptions from './utilities/buttonsOptions';
 
 function KanbanApp() {
     const initialData = {
@@ -120,14 +120,14 @@ function KanbanApp() {
             {isTaskForm && (
                 <Form
                     options={formsOptions.addTaskForm}
-                    onClick={handleHideForm}
+                    closeForm={handleHideForm}
                     onSubmit={handleAddTask}
                 />
             )}
             {isColumnForm && (
                 <Form
                     options={formsOptions.addColumnForm}
-                    onClick={handleHideForm}
+                    closeForm={handleHideForm}
                     onSubmit={handleAddColumn}
                 />
             )}
