@@ -1,16 +1,4 @@
-export const getInitialState = (storageSource, initialSource) => {
-    const storedData = storageSource || initialSource;
-
-    return storedData;
-};
-
-// Managing columns & tasks
-export const getArrayWithNewData = (array, newData) => [...array, newData];
-
-export const getArrayWithoutSpecifiedItem = (array, idToRemove) =>
-    array.filter((item) => item.id !== idToRemove);
-
-// Moving tasks
+// MOVING TASKS
 export const getNewIdColumn = (currentTarget, currentIdColumn, columns) => {
     let newIdColumn = currentIdColumn;
 
@@ -38,7 +26,12 @@ export const isColumnFull = ({ columns, tasks }, columnId) => {
     }
 
     return true;
-};
+}; 
+
+export const getArrayWithNewData = (array, newData) => [...array, newData];
+
+export const getColumnsWithoutIdToRemove = (columns, idToRemove) =>
+    columns.filter((column) => column.id !== idToRemove);
 
 // Modal
 export const filterKeyEscape = (handler) => (e) => e.keyCode === 27 && handler(e);

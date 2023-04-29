@@ -16,7 +16,6 @@ import {
 import {
     getArrayWithNewData,
     getArrayWithoutSpecifiedItem,
-    getInitialState,
     getNewIdColumn,
     isColumnFull,
 } from './utilities/helpers';
@@ -42,14 +41,19 @@ function KanbanApp() {
 
     const [columnsStorage, setColumnsStorage] = useStorage('columns');
     const [tasksStorage, setTasksStorage] = useStorage('tasks');
+    const [columns, setColumns] = useState(() => {
+        const storedData = columnsStorage || initialData.columns;
 
-    const [columns, setColumns] = useState(() =>
-        getInitialState(columnsStorage, initialData.columns),
-    );
-    const [tasks, setTasks] = useState(() => getInitialState(tasksStorage, initialData.tasks));
-    const [isLimitAlertOpen, setLimitAlertOpen] = useState(false);
-    const [isTaskFormOpen, setTaskFormOpen] = useState(false);
-    const [isColumnFormOpen, setColumnFormOpen] = useState(false);
+        return storedData;
+    });
+    const [tasks, setTasks] = useState(() => {
+        const storedData = tasksStorage || initialData.tasks;
+
+        return storedData;
+    });
+    const [isTaskLimitReached, setTaskLimitReached] = useState(false);
+    const [isTaskForm, setTaskForm] = useState(false);
+    const [isColumnForm, setColumnForm] = useState(false);
 
     useEffect(() => {
         setColumnsStorage(columns);
@@ -60,16 +64,16 @@ function KanbanApp() {
     }, [tasks]);
 
     useEffect(() => {
-        if (isTaskFormOpen) {
-            setColumnFormOpen(false);
+        if (isTaskForm) {
+            setColumnForm(false);
         }
-    }, [isTaskFormOpen]);
+    }, [isTaskForm]);
 
     useEffect(() => {
-        if (isColumnFormOpen) {
-            setTaskFormOpen(false);
+        if (isColumnForm) {
+            setTaskForm(false);
         }
-    }, [isColumnFormOpen]);
+    }, [isColumnForm]);
 
     const handleAddTask = (data) => {
         const idColumn = 1;
@@ -77,7 +81,7 @@ function KanbanApp() {
         if (!isColumnFull({ columns, tasks }, idColumn)) {
             setTasks((tasks) => getArrayWithNewData(tasks, { id: uuid(), idColumn, ...data }));
         } else {
-            setLimitAlertOpen(true);
+            setTaskLimitReached(true);
         }
     };
 
@@ -108,15 +112,15 @@ function KanbanApp() {
 
                 return newTasks;
             });
-            setLimitAlertOpen(false);
+            setTaskLimitReached(false);
         } else {
-            setLimitAlertOpen(true);
+            setTaskLimitReached(true);
         }
     };
 
     const closeForm = () => {
-        setTaskFormOpen(false);
-        setColumnFormOpen(false);
+        setTaskForm(false);
+        setColumnForm(false);
     };
 
     const { Provider: ColumnsProvider } = ColumnsContext;
@@ -129,8 +133,8 @@ function KanbanApp() {
         <>
             <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen">
                 <Header
-                    showAddTaskForm={() => setTaskFormOpen(true)}
-                    showAddColumnForm={() => setColumnFormOpen(true)}
+                    showAddTaskForm={() => setTaskForm(true)}
+                    showAddColumnForm={() => setColumnForm(true)}
                 />
                 <main>
                     <ColumnsProvider value={columns}>
@@ -146,25 +150,25 @@ function KanbanApp() {
                     </ColumnsProvider>
                 </main>
             </div>
-            {isTaskFormOpen && (
+            {isTaskForm && (
                 <Form
                     options={formsOptions.addTaskForm}
                     closeForm={closeForm}
                     onSubmit={handleAddTask}
                 />
             )}
-            {isColumnFormOpen && (
+            {isColumnForm && (
                 <Form
                     options={formsOptions.addColumnForm}
                     closeForm={closeForm}
                     onSubmit={handleAddColumn}
                 />
             )}
-            {isLimitAlertOpen && (
+            {isTaskLimitReached && (
                 <Modal
                     title="Column is full!"
                     text="You have reached the maximum number of tasks."
-                    closeModal={() => setLimitAlertOpen(false)}
+                    closeModal={() => setTaskLimitReached(false)}
                 />
             )}
         </>
