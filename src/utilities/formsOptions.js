@@ -1,12 +1,20 @@
 /* eslint-disable quotes */
+const formModalStyles =
+    'flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50';
+const formElementStyles =
+    'flex flex-col gap-6 py-10 px-10 bg-zinc-600 drop-shadow-sm rounded-md w-11/12 max-w-md animate-slide-from-t';
 const textInputStyles =
     'border border-zinc-500 p-2 rounded-md text-white bg-transparent focus-visible:outline-blue-500 focus-visible:outline focus-visible:outline-2';
 const colorInputStyles = 'bg-transparent';
+const formButtonStyles =
+    'bg-blue-500 hover:bg-blue-600 py-1 px-4 rounded-full ease-in-out duration-100 cursor-pointer w-full';
 
 const formsOptions = {
     addTaskForm: {
-        title: 'Add task',
-
+        title: 'Add new task',
+        formModalStyles,
+        formElementStyles,
+        formButtonStyles,
         fields: [
             {
                 label: 'Task name',
@@ -47,7 +55,10 @@ const formsOptions = {
         ],
     },
     addColumnForm: {
-        title: 'Add column',
+        title: 'Add new column',
+        formModalStyles,
+        formElementStyles,
+        formButtonStyles,
         fields: [
             {
                 label: 'Column Name',
@@ -76,7 +87,6 @@ const formsOptions = {
                 name: 'columnColor',
                 id: 'columnColor',
                 type: 'color',
-                placeholder: '',
                 required: false,
                 pattern: false,
                 errorMessage: false,
