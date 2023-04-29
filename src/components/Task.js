@@ -1,4 +1,9 @@
 import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../context';
 
 // eslint-disable-next-line react/prop-types
@@ -44,12 +49,12 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                prev
+                                                <FontAwesomeIcon icon={icon({name: 'chevron-left'})}/>
                                             </button>
                                         ) : null}
                                         {idColumn !== columns.length ? (
                                             <button
-                                                className="bg-purple-500 hover:bg-purple-600 py-1 px-4 rounded-full text-white ease-in-out duration-100"
+                                                className={buttonStyle}
                                                 id="next"
                                                 type="button"
                                                 onClick={(e) =>
@@ -59,7 +64,7 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                next
+                                                <FontAwesomeIcon icon={icon({name: 'chevron-right'})}/>
                                             </button>
                                         ) : null}
                                     </div>
