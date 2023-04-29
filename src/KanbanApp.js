@@ -1,10 +1,11 @@
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuid } from 'uuid';
 
 import Board from './components/Board';
+import Form from './components/Form/Form';
+import Modal from './components/Modal';
+
 import {
     ColumnsContext,
     MoveTasksContext,
@@ -12,12 +13,16 @@ import {
     RemoveTaskContext,
     TasksContext,
 } from './context';
+import {
+    getArrayWithNewData,
+    getColumnsWithoutIdToRemove,
+    getNewIdColumn,
+    isColumnFull,
+} from './utilities/helpers';
 import useStorage from './hooks';
-import { findTargetColumn, getNewIdColumn, getTasksCountInColumn } from './utilities/helpers';
-import Button from './components/Button';
-import Form from './components/Form/Form';
-import formsOptions from './utilities/formsOptions';
-import buttonsOptions from './utilities/buttonsOptions';
+
+import formsOptions from './components/Form/utilities/formsOptions';
+import Header from './components/Header';
 
 function KanbanApp() {
     const initialData = {
@@ -38,30 +43,66 @@ function KanbanApp() {
     const [tasksStorage, setTasksStorage] = useStorage('tasks');
     const [columns, setColumns] = useState(() => {
         const storedData = columnsStorage || initialData.columns;
+
         return storedData;
     });
     const [tasks, setTasks] = useState(() => {
         const storedData = tasksStorage || initialData.tasks;
+
         return storedData;
     });
-    const [isLimitAlert, setLimitAlert] = useState(false);
+    const [isTaskLimitReached, setTaskLimitReached] = useState(false);
     const [isTaskForm, setTaskForm] = useState(false);
     const [isColumnForm, setColumnForm] = useState(false);
 
     useEffect(() => {
         setColumnsStorage(columns);
-    }, [columns, setColumnsStorage]);
+    }, [columns]);
 
     useEffect(() => {
         setTasksStorage(tasks);
-    }, [tasks, setTasksStorage]);
+    }, [tasks]);
+
+    useEffect(() => {
+        if (isTaskForm) {
+            setColumnForm(false);
+        }
+    }, [isTaskForm]);
+
+    useEffect(() => {
+        if (isColumnForm) {
+            setTaskForm(false);
+        }
+    }, [isColumnForm]);
+
+    const handleAddTask = (data) => {
+        const idColumn = 1;
+
+        if (!isColumnFull({ columns, tasks }, idColumn)) {
+            setTasks((tasks) => getArrayWithNewData(tasks, { id: uuid(), idColumn, ...data }));
+        } else {
+            setTaskLimitReached(true);
+        }
+    };
+
+    const handleAddColumn = (data) => {
+        setColumns((columns) => getArrayWithNewData(columns, { id: columns.length + 1, ...data }));
+    };
+
+    const handleRemoveColumn = (idToRemove) => {
+        setColumns(getColumnsWithoutIdToRemove(columns, idToRemove));
+    };
+
+    const handleRemoveTask = (idToRemove) => {
+        const newTasks = tasks.filter((task) => task.id !== idToRemove);
+
+        setTasks(newTasks);
+    };
 
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
         const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
-        const targetColumn = findTargetColumn(columns, newIdColumn);
-        const tasksInTargetColumn = getTasksCountInColumn(tasks, newIdColumn);
 
-        if (tasksInTargetColumn < targetColumn.limit) {
+        if (!isColumnFull({ columns, tasks }, newIdColumn)) {
             setTasks((tasks) => {
                 const newTasks = tasks.map((task) => {
                     if (task.id === idTask) {
@@ -73,51 +114,15 @@ function KanbanApp() {
 
                 return newTasks;
             });
-            setLimitAlert(false);
+            setTaskLimitReached(false);
         } else {
-            setLimitAlert(true);
+            setTaskLimitReached(true);
         }
     };
 
-    const showTaskForm = () => {
-        setColumnForm(false);
-        setTaskForm(true);
-    };
-
-    const showColumnForm = () => {
-        setTaskForm(false);
-        setColumnForm(true);
-    };
-
-    const handleHideForm = () => {
+    const closeForm = () => {
         setTaskForm(false);
         setColumnForm(false);
-    };
-
-    const handleAddTask = (data) => {
-        const newTask = { id: uuid(), idColumn: 1, ...data };
-
-        setTasks((tasks) => [...tasks, newTask]);
-    };
-
-    const handleAddColumn = (data) => {
-        const newColumn = { id: columns.length + 1, ...data };
-
-        setColumns((columns) => [...columns, newColumn]);
-    };
-
-    const handleRemoveColumn = (idToRemove) => {
-        console.log('remove', idToRemove);
-        const newColumns = columns.filter((column) => column.id !== idToRemove);
-
-        setColumns(newColumns);
-    };
-
-    const handleRemoveTask = (idToRemove) => {
-        console.log('remove', idToRemove);
-        const newTasks = tasks.filter((task) => task.id !== idToRemove);
-
-        setTasks(newTasks);
     };
 
     const { Provider: ColumnsProvider } = ColumnsContext;
@@ -127,56 +132,48 @@ function KanbanApp() {
     const { Provider: RemoveTaskProvider } = RemoveTaskContext;
 
     return (
-        <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen text-white">
-            <header className="sticky z-50 top-0 items-center flex justify-between py-4 px-8 bg-zinc-600 drop-shadow-md">
-                <h1>Kanban</h1>
-                <nav>
-                    <ul className="flex gap-4">
-                        <li>
-                            <Button
-                                options={buttonsOptions.addTaskButton}
-                                onClick={showTaskForm}
-                            />
-                        </li>
-                        <li>
-                            <Button
-                                options={buttonsOptions.addColumnButton}
-                                onClick={showColumnForm}
-                            />
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-
-            <main>
-                <ColumnsProvider value={columns}>
-                    <RemoveColumnProvider value={handleRemoveColumn}>
-                        <TasksProvider value={tasks}>
-                            <MoveTasksProvider value={handleMoveTask}>
-                                <RemoveTaskProvider value={handleRemoveTask}>
-                                    <Board />
-                                    {isLimitAlert && <h1>Osiągnięto limit!!</h1>}
-                                </RemoveTaskProvider>
-                            </MoveTasksProvider>
-                        </TasksProvider>
-                    </RemoveColumnProvider>
-                </ColumnsProvider>
-            </main>
+        <>
+            <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen">
+                <Header
+                    showAddTaskForm={() => setTaskForm(true)}
+                    showAddColumnForm={() => setColumnForm(true)}
+                />
+                <main>
+                    <ColumnsProvider value={columns}>
+                        <RemoveColumnProvider value={handleRemoveColumn}>
+                            <TasksProvider value={tasks}>
+                                <MoveTasksProvider value={handleMoveTask}>
+                                    <RemoveTaskProvider value={handleRemoveTask}>
+                                        <Board />
+                                    </RemoveTaskProvider>
+                                </MoveTasksProvider>
+                            </TasksProvider>
+                        </RemoveColumnProvider>
+                    </ColumnsProvider>
+                </main>
+            </div>
             {isTaskForm && (
                 <Form
                     options={formsOptions.addTaskForm}
-                    closeForm={handleHideForm}
+                    closeForm={closeForm}
                     onSubmit={handleAddTask}
                 />
             )}
             {isColumnForm && (
                 <Form
                     options={formsOptions.addColumnForm}
-                    closeForm={handleHideForm}
+                    closeForm={closeForm}
                     onSubmit={handleAddColumn}
                 />
             )}
-        </div>
+            {isTaskLimitReached && (
+                <Modal
+                    title="Column is full!"
+                    text="You have reached the maximum number of tasks."
+                    closeModal={() => setTaskLimitReached(false)}
+                />
+            )}
+        </>
     );
 }
 
