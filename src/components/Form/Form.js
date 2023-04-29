@@ -9,7 +9,7 @@ import {
     clearInputs,
     getFormData,
     getInitialInputs,
-} from '../../utilities/helpers';
+} from './utilities/helpers';
 
 const formValidator = new FormValidator();
 // eslint-disable-next-line no-unused-vars
