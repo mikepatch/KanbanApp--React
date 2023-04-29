@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: #b3a74f2d;
-}
+@layer base {
+    body {
+        @apply text-neutral-100;
+        @apply font-sans;
+    }
 
-h1 {
-    font-size: 2rem;
-    font-weight: 700;
-}
+    h1 {
+        font-size: 2rem;
+    }
 
-h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    h2 {
+        font-size: 1.5rem;
+        @apply text-3xl;
+        @apply font-bold;
+    }
 }

@@ -14,7 +14,7 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
             {(handleMoveTask) => (
                 <RemoveTaskConsumer>
                     {(handleRemoveTask) => (
-                        <li className="flex flex-col gap-2 bg-zinc-600 p-4 rounded-md drop-shadow-sm relative">
+                        <li className="flex flex-col gap-2 bg-zinc-600 p-4 px-6 rounded-md drop-shadow-sm relative animate-slide-from-l-sm">
                             <button
                                 className="font-bold text-left hover:text-purple-500 ease-in-out duration-100"
                                 type="button"
@@ -44,7 +44,7 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                Prev
+                                                prev
                                             </button>
                                         ) : null}
                                         {idColumn !== columns.length ? (
@@ -59,7 +59,7 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                                                     })
                                                 }
                                             >
-                                                Next
+                                                next
                                             </button>
                                         ) : null}
                                     </div>

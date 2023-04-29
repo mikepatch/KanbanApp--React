@@ -6,18 +6,6 @@ export const getInitialInputs = (fields) => {
     return initialInputs;
 };
 
-export const filterKeyEscape = (handler) => (e) => e.keyCode === 27 && handler(e);
-
-export const filterAsideElement = (handler) => (e) => e.target.tagName === 'ASIDE' && handler(e);
-
-export const accessibleOnClick = (handler) => ({
-    role: 'dialog',
-    'aria-modal': true,
-    tabIndex: 0,
-    onKeyDown: filterKeyEscape(handler),
-    onClick: filterAsideElement(handler),
-});
-
 export const areFormErrorsEmpty = (errors) =>
     Object.values(errors).every((error) => error.length === 0);
 

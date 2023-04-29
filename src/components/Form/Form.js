@@ -4,12 +4,12 @@ import FormField from './components/FormField';
 import SuccessModal from './components/SuccessModal';
 import FormValidator from '../../utilities/FormValidator';
 import {
-    accessibleOnClick,
     areFormErrorsEmpty,
     clearInputs,
     getFormData,
     getInitialInputs,
 } from './utilities/helpers';
+import { accessibleOnClick } from '../../utilities/helpers';
 
 const formValidator = new FormValidator();
 // eslint-disable-next-line no-unused-vars
@@ -77,7 +77,7 @@ function Form({
                     <input
                         className={formButtonStyles}
                         type="submit"
-                        value="Save"
+                        value="save"
                     />
                 </div>
             </form>

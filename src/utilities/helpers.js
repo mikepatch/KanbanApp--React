@@ -28,3 +28,19 @@ export const isColumnFull = ({ columns, tasks }, columnId) => {
     return true;
 }; 
 
+export const getArrayWithNewData = (array, newData) => [...array, newData];
+
+export const getColumnsWithoutIdToRemove = (columns, idToRemove) =>
+    columns.filter((column) => column.id !== idToRemove);
+
+// Modal
+export const filterKeyEscape = (handler) => (e) => e.keyCode === 27 && handler(e);
+
+export const filterAsideElement = (handler) => (e) => e.target.tagName === 'ASIDE' && handler(e);
+
+export const accessibleOnClick = (handler) => ({
+    role: 'dialog',
+    'aria-modal': true,
+    onKeyDown: filterKeyEscape(handler),
+    onClick: filterAsideElement(handler),
+});
