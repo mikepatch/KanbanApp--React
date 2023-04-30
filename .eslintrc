@@ -21,7 +21,15 @@
         "no-console": 0,
         "func-names": ["error", "as-needed"],
         "no-shadow": "off",
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "import/no-extraneous-dependencies": [
+            "warn",
+            {
+                "devDependencies": true,
+                "optionalDependencies": true,
+                "peerDependencies": true
+            }
+        ]
     },
     "globals": {
         "window": true,

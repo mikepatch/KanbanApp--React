@@ -1,14 +1,18 @@
 /* eslint-disable quotes */
-const formModalStyles =
-    'flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-60';
-const formElementStyles =
-    'flex flex-col gap-6 py-8 px-10 bg-zinc-600 drop-shadow-sm rounded-md w-11/12 max-w-md animate-slide-from-b';
-const textInputStyles =
-    'border border-zinc-500 p-2 rounded-md text-white bg-transparent focus-visible:outline-blue-500 focus-visible:outline focus-visible:outline-2';
-const colorInputStyles = 'bg-transparent';
-const formButtonStyles =
-    'bg-blue-500 hover:bg-blue-600 py-1 px-4 rounded-full ease-in-out duration-100 cursor-pointer w-full';
+const styles = {
+    formModalStyles:
+        'flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-60 z-40',
+    formElementStyles:
+        'flex flex-col gap-6 py-8 px-12 bg-secondary-dark drop-shadow-sm rounded-md w-11/12 max-w-md animate-slide-from-b',
+    textInputStyles:
+        'border border-secondary p-2 rounded-md text-white bg-transparent focus-visible:outline-primary focus-visible:outline focus-visible:outline-2',
+    colorInputStyles: 'bg-transparent',
+    formButtonStyles:
+        'bg-primary hover:bg-primary-dark py-1 px-4 rounded-full ease-in-out duration-100 cursor-pointer w-full',
+};
 
+const { formModalStyles, formElementStyles, textInputStyles, colorInputStyles, formButtonStyles } =
+    styles;
 const formsOptions = {
     addTaskForm: {
         title: 'Add new task',
@@ -25,7 +29,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
-                styles: textInputStyles,
+                className: textInputStyles,
             },
             {
                 label: 'Your name',
@@ -36,7 +40,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
-                styles: textInputStyles,
+                className: textInputStyles,
             },
             {
                 label: 'Description',
@@ -50,7 +54,7 @@ const formsOptions = {
                 errorMessage: 'Description is invalid.',
                 rows: 5,
                 textarea: true,
-                styles: textInputStyles,
+                className: textInputStyles,
             },
         ],
     },
@@ -69,7 +73,7 @@ const formsOptions = {
                 required: true,
                 pattern: "\\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+",
                 errorMessage: 'Name is invalid.',
-                styles: textInputStyles,
+                className: textInputStyles,
             },
             {
                 label: 'Tasks limit',
@@ -80,7 +84,7 @@ const formsOptions = {
                 required: true,
                 pattern: '^[1-9][0-9]*$',
                 errorMessage: 'Maximum tasks number is invalid',
-                styles: textInputStyles,
+                className: textInputStyles,
             },
             {
                 label: 'Add column color',
@@ -88,9 +92,9 @@ const formsOptions = {
                 id: 'columnColor',
                 type: 'color',
                 required: false,
-                pattern: false,
-                errorMessage: false,
-                styles: colorInputStyles,
+                pattern: '',
+                errorMessage: '',
+                className: colorInputStyles,
                 value: '#00ff00',
             },
         ],

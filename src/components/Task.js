@@ -2,76 +2,95 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
+import Button from './Button';
+
 import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../context';
+import buttonsOptions from '../utilities/buttonsOptions';
+import { isNotFirstColumn, isNotLastColumn } from '../utilities/helpers';
 
 function Task({ data: { id, idColumn, taskName, userName } }) {
+    const { moveTaskButton, removeTaskButton } = buttonsOptions;
+    const styles = {
+        componentRoot:
+            'flex flex-col gap-2 bg-zinc-600 p-4 px-6 rounded-md drop-shadow-sm relative animate-slide-from-l-sm',
+        taskBody:
+            'font-bold text-left cursor-pointer hover:text-purple-500 ease-in-out duration-100',
+        taskTitle: 'text-xl',
+        address: 'text-right text-neutral-400',
+        navButtons: 'flex gap-2 justify-center mt-2',
+    };
+
+    const getPrevButton = (callback) => (
+        <Button
+            options={{
+                id: 'prev',
+                className: moveTaskButton.className,
+            }}
+            onClick={(e) =>
+                callback(e.currentTarget, {
+                    id,
+                    idColumn,
+                })
+            }
+        >
+            <FontAwesomeIcon icon={icon({ name: 'chevron-left' })} />
+        </Button>
+    );
+
+    const getNextButton = (callback) => (
+        <Button
+            options={{
+                id: 'next',
+                className: moveTaskButton.className,
+            }}
+            onClick={(e) =>
+                callback(e.currentTarget, {
+                    id,
+                    idColumn,
+                })
+            }
+        >
+            <FontAwesomeIcon icon={icon({ name: 'chevron-right' })} />
+        </Button>
+    );
+
+    const getRemoveButton = (callback) => (
+        <Button
+            options={{ className: removeTaskButton.className }}
+            onClick={() => callback(id)}
+        >
+            <FontAwesomeIcon icon={icon({ name: 'xmark' })} />
+        </Button>
+    );
+
     const { Consumer: MoveTasksConsumer } = MoveTasksContext;
     const { Consumer: ColumnsConsumer } = ColumnsContext;
     const { Consumer: RemoveTaskConsumer } = RemoveTaskContext;
-    const buttonStyle =
-        'bg-blue-500 hover:bg-blue-600 py-1 px-4 rounded-full text-white ease-in-out duration-100';
 
     return (
         <MoveTasksConsumer>
             {(handleMoveTask) => (
                 <RemoveTaskConsumer>
                     {(handleRemoveTask) => (
-                        <li className="flex flex-col gap-2 bg-zinc-600 p-4 px-6 rounded-md drop-shadow-sm relative animate-slide-from-l-sm">
-                            <button
-                                className="font-bold text-left hover:text-purple-500 ease-in-out duration-100"
-                                type="button"
-                            >
-                                <h3 className=" text-xl">{taskName}</h3>
-                            </button>
-                            <address className="text-right">Added by {userName}</address>
-                            <button
-                                className="absolute top-1 right-5 text-red-500 text-md cursor-pointer font-bold"
-                                type="button"
-                                onClick={() => handleRemoveTask(id)}
-                            >
-                                x
-                            </button>
-                            <ColumnsConsumer>
-                                {(columns) => (
-                                    <div className="flex gap-2 justify-center mt-2">
-                                        {idColumn !== 1 ? (
-                                            <button
-                                                className={buttonStyle}
-                                                id="prev"
-                                                type="button"
-                                                onClick={(e) =>
-                                                    handleMoveTask(e.currentTarget, {
-                                                        id,
-                                                        idColumn,
-                                                    })
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={icon({ name: 'chevron-left' })}
-                                                />
-                                            </button>
-                                        ) : null}
-                                        {idColumn !== columns.length ? (
-                                            <button
-                                                className={buttonStyle}
-                                                id="next"
-                                                type="button"
-                                                onClick={(e) =>
-                                                    handleMoveTask(e.currentTarget, {
-                                                        id,
-                                                        idColumn,
-                                                    })
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={icon({ name: 'chevron-right' })}
-                                                />
-                                            </button>
-                                        ) : null}
+                        <ColumnsConsumer>
+                            {(columns) => (
+                                <article className={styles.componentRoot}>
+                                    <div className={styles.taskBody}>
+                                        <h3 className={styles.taskTitle}>{taskName}</h3>
+                                        <address className={styles.address}>
+                                            Added by {userName}
+                                        </address>
                                     </div>
-                                )}
-                            </ColumnsConsumer>
-                        </li>
+                                    {getRemoveButton(handleRemoveTask)}
+                                    <div className={styles.navButtons}>
+                                        {isNotFirstColumn(idColumn) &&
+                                            getPrevButton(handleMoveTask)}
+                                        {isNotLastColumn(idColumn, columns) &&
+                                            getNextButton(handleMoveTask)}
+                                    </div>
+                                </article>
+                            )}
+                        </ColumnsConsumer>
                     )}
                 </RemoveTaskConsumer>
             )}

@@ -13,7 +13,7 @@ export const getArrayWithoutSpecifiedItem = (array, idToRemove) =>
 export const getNewStateItems = (stateItems, [idToUpdate, propertiesToChange]) =>
     stateItems.map((item) => (item.id === idToUpdate ? { ...item, ...propertiesToChange } : item));
 
-export const changeState = (setState, items) => setState(() => items); 
+export const changeState = (setState, items) => setState(() => items);
 
 // Moving tasks
 export const getNewIdColumn = (currentTarget, currentIdColumn, columns) => {
@@ -44,6 +44,10 @@ export const isColumnFull = ({ columns, tasks }, columnId) => {
 
     return true;
 };
+
+export const isNotFirstColumn = (idColumn) => idColumn !== 1;
+
+export const isNotLastColumn = (idColumn, columns) => idColumn !== columns.length;
 
 // Modal
 export const filterKeyEscape = (handler) => (e) => e.keyCode === 27 && handler(e);

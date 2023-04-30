@@ -3,7 +3,14 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#1B73E8',
+                primary: '#A855F7',
+                'primary-dark': '#9333EA',
+                secondary: '#71717A',
+                'secondary-dark': '#52525B',
+                'main-bg': '#3F3F46',
+                'main-bg-dark': '#18181B',
+                'primary-font': '#F5F5F5',
+                alert: '#EF4444',
             },
             keyframes: {
                 slideB: {

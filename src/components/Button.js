@@ -1,15 +1,15 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-function Button({ options: { className, type, text }, onClick }) {
-
+function Button({ options: { type = 'button', ...attributes }, onClick, children }) {
     return (
         <button
-            className={className}
-            // eslint-disable-next-line react/button-has-type
             type={type}
+            {...attributes}
             onClick={onClick}
         >
-            {text}
+            {children}
         </button>
     );
 }

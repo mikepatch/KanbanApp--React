@@ -28,6 +28,7 @@ import initialData from './utilities/initialData';
 import formsOptions from './components/Form/utilities/formsOptions';
 
 function KanbanApp() {
+    const styles = { componentRoot: 'bg-gradient-to-b from-main-bg to-main-bg-dark min-h-screen' };
     const [columnsStorage, setColumnsStorage] = useStorage('columns');
     const [tasksStorage, setTasksStorage] = useStorage('tasks');
 
@@ -46,18 +47,6 @@ function KanbanApp() {
     useEffect(() => {
         changeState(setTasksStorage, tasks);
     }, [tasks]);
-
-    useEffect(() => {
-        if (isTaskFormOpen) {
-            changeState(setColumnFormOpen, false);
-        }
-    }, [isTaskFormOpen]);
-
-    useEffect(() => {
-        if (isColumnFormOpen) {
-            changeState(setTaskFormOpen, false);
-        }
-    }, [isColumnFormOpen]);
 
     const handleAddTask = (data) => {
         const firstColumnId = 1;
@@ -122,7 +111,7 @@ function KanbanApp() {
                     <MoveTasksProvider value={handleMoveTask}>
                         <RemoveTaskProvider value={handleRemoveTask}>
                             <ChangeColumnColorProvider value={handleUpdateColumn}>
-                                <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen">
+                                <div className={styles.componentRoot}>
                                     <Header
                                         showAddTaskForm={() => setTaskFormOpen(true)}
                                         showAddColumnForm={() => setColumnFormOpen(true)}
@@ -147,8 +136,10 @@ function KanbanApp() {
                                 )}
                                 {isLimitAlertOpen && (
                                     <Modal
-                                        title="Column is full!"
-                                        text="You have reached the maximum number of tasks."
+                                        data={{
+                                            title: 'Column is full!',
+                                            text: 'You have reached the maximum number of tasks.',
+                                        }}
                                         closeModal={() => setLimitAlertOpen(false)}
                                     />
                                 )}

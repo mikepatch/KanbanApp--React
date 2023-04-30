@@ -1,50 +1,36 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 function FormField({
-    options: {
-        id,
-        label,
-        name,
-        type,
-        placeholder,
-        textarea,
-        errorsMessages,
-        value,
-        onChange,
-        rows,
-        styles,
-    },
+    options: { id, label, type, textarea, errorsMessages, rows, onChange, ...attributes },
 }) {
-    const errorStyles = errorsMessages && errorsMessages.length > 0 ? { borderColor: 'red' } : {};
-
+    const styles = {
+        errorInfo: 'text-red-500 font-bold animate-pulse',
+        inputErrorStyles: errorsMessages && errorsMessages.length > 0 ? { borderColor: 'red' } : {},
+    };
+    
     return (
         <div className="flex flex-col gap-1">
             <label htmlFor={id}>{label}</label>
             {textarea ? (
                 <textarea
-                    className={styles}
-                    style={errorStyles}
+                    style={styles.inputErrorStyles}
                     id={id}
-                    name={name}
-                    placeholder={placeholder}
                     rows={rows}
-                    value={value}
+                    {...attributes}
                     onChange={(e) => onChange(e.target)}
                 />
             ) : (
                 <input
-                    className={styles}
-                    style={errorStyles}
+                    style={styles.inputErrorStyles}
                     id={id}
-                    name={name}
                     type={type}
-                    placeholder={placeholder}
-                    value={value}
+                    {...attributes}
                     onChange={(e) => onChange(e.target)}
                 />
             )}
             {errorsMessages && errorsMessages.length !== 0 && (
-                <small className="text-red-500 font-bold animate-pulse">{errorsMessages}</small>
+                <small className={styles.errorInfo}>{errorsMessages}</small>
             )}
         </div>
     );
