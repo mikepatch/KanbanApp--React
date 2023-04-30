@@ -6,7 +6,7 @@ import ColorLabel from './ColorLabel';
 import Button from './Button';
 import ColumnCounter from './ColumnCounter';
 
-import { RemoveColumnContext } from '../context';
+import { RemoveColumnContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
 
 function ColumnHeader({ data: { tasks, id, columnColor, columnName, limit } }) {

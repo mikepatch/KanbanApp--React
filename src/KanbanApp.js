@@ -6,7 +6,7 @@ import Board from './components/Board';
 import Form from './components/Form/Form';
 import Modal from './components/Modal';
 
-import useStorage from './hooks';
+import useStorage from './utilities/hooks';
 import {
     ChangeColumnColorContext,
     ColumnsContext,
@@ -14,7 +14,7 @@ import {
     RemoveColumnContext,
     RemoveTaskContext,
     TasksContext,
-} from './context';
+} from './utilities/context';
 import {
     changeState,
     getArrayWithNewData,

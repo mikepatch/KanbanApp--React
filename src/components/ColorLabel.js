@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ChangeColumnColorContext } from '../context';
+import { ChangeColumnColorContext } from '../utilities/context';
 
 function ColorLabel({ data: { id, columnColor } }) {
     const styles = {

@@ -3,7 +3,7 @@ import React from 'react';
 import List from './List';
 import Column from './Column';
 
-import { ColumnsContext } from '../context';
+import { ColumnsContext } from '../utilities/context';
 
 function Board() {
     const styles = {

@@ -4,7 +4,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import Button from './Button';
 
-import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../context';
+import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
 import { isNotFirstColumn, isNotLastColumn } from '../utilities/helpers';
 

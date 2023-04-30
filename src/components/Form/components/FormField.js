@@ -7,12 +7,13 @@ function FormField({
     options: { id, label, type, textarea, errorsMessages, rows, onChange, ...attributes },
 }) {
     const styles = {
+        rootElement: 'flex flex-col gap-1',
         errorInfo: 'text-red-500 font-bold animate-pulse',
         inputErrorStyles: errorsMessages && errorsMessages.length > 0 ? { borderColor: 'red' } : {},
     };
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className={styles.rootElement}>
             <label htmlFor={id}>{label}</label>
             {textarea ? (
                 <Textarea

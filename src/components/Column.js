@@ -4,7 +4,7 @@ import ColumnHeader from './ColumnHeader';
 import List from './List';
 import Task from './Task';
 
-import { TasksContext } from '../context';
+import { TasksContext } from '../utilities/context';
 
 function Column({ data: { id, ...properties } }) {
     const getColumnTasks = (tasks) =>
