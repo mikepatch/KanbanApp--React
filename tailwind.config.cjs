@@ -6,11 +6,11 @@ module.exports = {
                 primary: '#1B73E8',
             },
             keyframes: {
-                slideL: {
-                    '0%': { transform: 'translateX(-300%)' },
-                    '40%': { transform: 'translateX(0)' },
-                    '70%': { transform: 'translateX(-5%)' },
-                    '100%': { transform: 'translateX(0)' },
+                slideB: {
+                    '0%': { transform: 'translateY(300%)' },
+                    '40%': { transform: 'translateY(0)' },
+                    '70%': { transform: 'translateY(5%)' },
+                    '100%': { transform: 'translateY(0)' },
                 },
                 slideSmL: {
                     from: { transform: 'translateX(-2%)' },
@@ -18,7 +18,7 @@ module.exports = {
                 },
             },
             animation: {
-                'slide-from-l': 'slideL .5s linear',
+                'slide-from-b': 'slideB .5s linear',
                 'slide-from-l-sm': 'slideSmL .3s linear',
             },
         },

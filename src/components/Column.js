@@ -32,7 +32,9 @@ function Column({ data: { id, columnColor, columnName, limit } }) {
                                                     type="color"
                                                     onChange={(e) => setColor(e.target.value)}
                                                     onBlur={() =>
-                                                        handleChangeColumnColor(id, color)
+                                                        handleChangeColumnColor(id, {
+                                                            columnColor: color,
+                                                        })
                                                     }
                                                 />
                                             </div>

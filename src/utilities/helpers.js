@@ -10,6 +10,11 @@ export const getArrayWithNewData = (array, newData) => [...array, newData];
 export const getArrayWithoutSpecifiedItem = (array, idToRemove) =>
     array.filter((item) => item.id !== idToRemove);
 
+export const getNewStateItems = (stateItems, [idToUpdate, propertiesToChange]) =>
+    stateItems.map((item) => (item.id === idToUpdate ? { ...item, ...propertiesToChange } : item));
+
+export const changeState = (setState, items) => setState(() => items); 
+
 // Moving tasks
 export const getNewIdColumn = (currentTarget, currentIdColumn, columns) => {
     let newIdColumn = currentIdColumn;

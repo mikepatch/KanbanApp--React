@@ -44,7 +44,7 @@ function FormField({
                 />
             )}
             {errorsMessages && errorsMessages.length !== 0 && (
-                <small className="text-red-500 font-bold">{errorsMessages}</small>
+                <small className="text-red-500 font-bold animate-pulse">{errorsMessages}</small>
             )}
         </div>
     );

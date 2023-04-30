@@ -12,6 +12,7 @@ class FormValidator {
         return errors;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     validateField(field, inputValue) {
         const errors = [];
         const { label, required, pattern, errorMessage } = field;

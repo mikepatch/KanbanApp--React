@@ -16,29 +16,18 @@ import {
     TasksContext,
 } from './context';
 import {
+    changeState,
     getArrayWithNewData,
     getArrayWithoutSpecifiedItem,
     getInitialState,
     getNewIdColumn,
+    getNewStateItems,
     isColumnFull,
 } from './utilities/helpers';
+import initialData from './utilities/initialData';
 import formsOptions from './components/Form/utilities/formsOptions';
 
 function KanbanApp() {
-    const initialData = {
-        columns: [
-            { id: 1, columnColor: '#ddd', columnName: 'TO-DO', limit: 4 },
-            { id: 2, columnColor: '#00f', columnName: 'In-progress', limit: 3 },
-            { id: 3, columnColor: '#f00', columnName: 'Done', limit: 2 },
-        ],
-        tasks: [
-            { id: 1, taskName: 'Task1', idColumn: 1, userName: 'John' },
-            { id: 2, taskName: 'Task2', idColumn: 2, userName: 'John' },
-            { id: 3, taskName: 'Task3', idColumn: 3, userName: 'Janice' },
-            { id: 4, taskName: 'Task4', idColumn: 1, userName: 'Janice' },
-        ],
-    };
-
     const [columnsStorage, setColumnsStorage] = useStorage('columns');
     const [tasksStorage, setTasksStorage] = useStorage('tasks');
 
@@ -51,85 +40,72 @@ function KanbanApp() {
     const [isColumnFormOpen, setColumnFormOpen] = useState(false);
 
     useEffect(() => {
-        setColumnsStorage(columns);
+        changeState(setColumnsStorage, columns);
     }, [columns]);
 
     useEffect(() => {
-        setTasksStorage(tasks);
+        changeState(setTasksStorage, tasks);
     }, [tasks]);
 
     useEffect(() => {
         if (isTaskFormOpen) {
-            setColumnFormOpen(false);
+            changeState(setColumnFormOpen, false);
         }
     }, [isTaskFormOpen]);
 
     useEffect(() => {
         if (isColumnFormOpen) {
-            setTaskFormOpen(false);
+            changeState(setTaskFormOpen, false);
         }
     }, [isColumnFormOpen]);
 
     const handleAddTask = (data) => {
-        const idColumn = 1;
+        const firstColumnId = 1;
 
-        if (!isColumnFull({ columns, tasks }, idColumn)) {
-            setTasks((tasks) => getArrayWithNewData(tasks, { id: uuid(), idColumn, ...data }));
+        if (!isColumnFull({ columns, tasks }, firstColumnId)) {
+            changeState(
+                setTasks,
+                getArrayWithNewData(tasks, { id: uuid(), idColumn: firstColumnId, ...data }),
+            );
         } else {
-            setLimitAlertOpen(true);
+            changeState(setLimitAlertOpen, true);
         }
     };
 
     const handleAddColumn = (data) => {
-        setColumns((columns) => getArrayWithNewData(columns, { id: columns.length + 1, ...data }));
+        changeState(setColumns, getArrayWithNewData(columns, { id: columns.length + 1, ...data }));
     };
 
     const handleRemoveColumn = (idToRemove) => {
-        setColumns(getArrayWithoutSpecifiedItem(columns, idToRemove));
+        changeState(setColumns, getArrayWithoutSpecifiedItem(columns, idToRemove));
     };
 
     const handleRemoveTask = (idToRemove) => {
-        setTasks(getArrayWithoutSpecifiedItem(tasks, idToRemove));
+        changeState(setTasks, getArrayWithoutSpecifiedItem(tasks, idToRemove));
     };
 
-    const handleChangeColumnColor = (idColumn, newColor) => {
-        setColumns((columns) => {
-            const newColumns = columns.map((column) => {
-                if (column.id === idColumn) {
-                    return { ...column, columnColor: newColor };
-                }
+    const handleUpdateColumn = (idColumn, propertiesToChange) => {
+        changeState(setColumns, getNewStateItems(columns, [idColumn, propertiesToChange]));
+    };
 
-                return column;
-            });
-
-            return newColumns;
-        });
+    const handleUpdateTask = (idTask, propertiesToChange) => {
+        changeState(setTasks, getNewStateItems(tasks, [idTask, propertiesToChange]));
     };
 
     const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
         const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
 
         if (!isColumnFull({ columns, tasks }, newIdColumn)) {
-            setTasks((tasks) => {
-                const newTasks = tasks.map((task) => {
-                    if (task.id === idTask) {
-                        return { ...task, idColumn: newIdColumn };
-                    }
-
-                    return task;
-                });
-
-                return newTasks;
-            });
-            setLimitAlertOpen(false);
+            handleUpdateTask(idTask, { idColumn: newIdColumn });
+            changeState(setLimitAlertOpen, false);
         } else {
-            setLimitAlertOpen(true);
+            changeState(setLimitAlertOpen, true);
         }
     };
 
     const closeForm = () => {
-        setTaskFormOpen(false);
-        setColumnFormOpen(false);
+        changeState(setTaskFormOpen, false);
+        changeState(setColumnFormOpen, false);
     };
 
     const { Provider: ColumnsProvider } = ColumnsContext;
@@ -140,50 +116,48 @@ function KanbanApp() {
     const { Provider: ChangeColumnColorProvider } = ChangeColumnColorContext;
 
     return (
-        <>
-            <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen">
-                <Header
-                    showAddTaskForm={() => setTaskFormOpen(true)}
-                    showAddColumnForm={() => setColumnFormOpen(true)}
-                />
-                <main>
-                    <ColumnsProvider value={columns}>
-                        <RemoveColumnProvider value={handleRemoveColumn}>
-                            <TasksProvider value={tasks}>
-                                <MoveTasksProvider value={handleMoveTask}>
-                                    <RemoveTaskProvider value={handleRemoveTask}>
-                                        <ChangeColumnColorProvider value={handleChangeColumnColor}>
-                                            <Board />
-                                        </ChangeColumnColorProvider>
-                                    </RemoveTaskProvider>
-                                </MoveTasksProvider>
-                            </TasksProvider>
-                        </RemoveColumnProvider>
-                    </ColumnsProvider>
-                </main>
-            </div>
-            {isTaskFormOpen && (
-                <Form
-                    options={formsOptions.addTaskForm}
-                    closeForm={closeForm}
-                    onSubmit={handleAddTask}
-                />
-            )}
-            {isColumnFormOpen && (
-                <Form
-                    options={formsOptions.addColumnForm}
-                    closeForm={closeForm}
-                    onSubmit={handleAddColumn}
-                />
-            )}
-            {isLimitAlertOpen && (
-                <Modal
-                    title="Column is full!"
-                    text="You have reached the maximum number of tasks."
-                    closeModal={() => setLimitAlertOpen(false)}
-                />
-            )}
-        </>
+        <ColumnsProvider value={columns}>
+            <RemoveColumnProvider value={handleRemoveColumn}>
+                <TasksProvider value={tasks}>
+                    <MoveTasksProvider value={handleMoveTask}>
+                        <RemoveTaskProvider value={handleRemoveTask}>
+                            <ChangeColumnColorProvider value={handleUpdateColumn}>
+                                <div className="bg-gradient-to-b from-zinc-700 to-zinc-900 min-h-screen">
+                                    <Header
+                                        showAddTaskForm={() => setTaskFormOpen(true)}
+                                        showAddColumnForm={() => setColumnFormOpen(true)}
+                                    />
+                                    <main>
+                                        <Board />
+                                    </main>
+                                </div>
+                                {isTaskFormOpen && (
+                                    <Form
+                                        options={formsOptions.addTaskForm}
+                                        closeForm={closeForm}
+                                        onSubmit={handleAddTask}
+                                    />
+                                )}
+                                {isColumnFormOpen && (
+                                    <Form
+                                        options={formsOptions.addColumnForm}
+                                        closeForm={closeForm}
+                                        onSubmit={handleAddColumn}
+                                    />
+                                )}
+                                {isLimitAlertOpen && (
+                                    <Modal
+                                        title="Column is full!"
+                                        text="You have reached the maximum number of tasks."
+                                        closeModal={() => setLimitAlertOpen(false)}
+                                    />
+                                )}
+                            </ChangeColumnColorProvider>
+                        </RemoveTaskProvider>
+                    </MoveTasksProvider>
+                </TasksProvider>
+            </RemoveColumnProvider>
+        </ColumnsProvider>
     );
 }
 

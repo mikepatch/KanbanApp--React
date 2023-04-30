@@ -3,7 +3,7 @@ import React, { useReducer, useState } from 'react';
 import FormField from './components/FormField';
 import SuccessModal from './components/SuccessModal';
 
-import FormValidator from '../../utilities/FormValidator';
+import FormValidator from './utilities/FormValidator';
 import {
     areFormErrorsEmpty,
     clearInputs,
@@ -62,6 +62,7 @@ function Form({
 
     return (
         <aside
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...accessibleOnClick(closeForm)}
             className={formModalStyles}
         >
