@@ -14,9 +14,9 @@ function ColumnHeader({ data: { tasks, id, columnColor, columnName, limit } }) {
         headerRoot: 'relative gap-2 flex justify-start p-3 text-center w-full',
         title: 'text-2xl lg:text-3xl',
     };
-    
-    const { removeColumnButton } = buttonsOptions;
+
     const { removeColumn } = useContext(ColumnsContext);
+    const { removeColumnButton } = buttonsOptions;
 
     return (
         <header className={styles.headerRoot}>

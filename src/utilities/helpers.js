@@ -16,19 +16,7 @@ export const getNewStateItems = (stateItems, [idToUpdate, propertiesToChange]) =
 export const changeState = (setState, items) => setState(() => items);
 
 // Moving tasks
-export const getNewIdColumn = (currentTarget, currentIdColumn, columns) => {
-    let newIdColumn = currentIdColumn;
-
-    if (currentTarget.id === 'next' && currentIdColumn !== columns.length) {
-        newIdColumn = currentIdColumn + 1;
-    } else if (currentTarget.id === 'prev' && currentIdColumn !== 1) {
-        newIdColumn = currentIdColumn - 1;
-    }
-
-    return newIdColumn;
-};
-
-export const findTargetColumn = (columns, newIdColumn) =>
+const findTargetColumn = (columns, newIdColumn) =>
     columns.find((column) => column.id === newIdColumn);
 
 export const getTasksCountInColumn = (tasks, columnId) =>
@@ -45,9 +33,11 @@ export const isColumnFull = ({ columns, tasks }, columnId) => {
     return true;
 };
 
-export const isNotFirstColumn = (idColumn) => idColumn !== 1;
+export const findCurrentColumnIndex = (columns, idColumn) => {
+    const currentColumn = columns.find((column) => column.id === idColumn);
 
-export const isNotLastColumn = (idColumn, columns) => idColumn !== columns.length;
+    return columns.indexOf(currentColumn);
+};
 
 // Modal
 export const filterKeyEscape = (handler) => (e) => e.keyCode === 27 && handler(e);

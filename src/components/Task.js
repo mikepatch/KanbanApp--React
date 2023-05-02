@@ -6,7 +6,7 @@ import Button from './Button';
 
 import { ColumnsContext, TasksContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
-import { isNotFirstColumn, isNotLastColumn } from '../utilities/helpers';
+import { findCurrentColumnIndex, isColumnFull } from '../utilities/helpers';
 
 function Task({ data: { id, idColumn, taskName, userName } }) {
     const { moveTaskButton, removeTaskButton } = buttonsOptions;
@@ -20,35 +20,44 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
         navButtons: 'flex gap-2 justify-center mt-2',
     };
 
-    const getPrevButton = (callback) => (
+    const { columns } = useContext(ColumnsContext);
+    const { showAlert, tasks, updateTask, removeTask } = useContext(TasksContext);
+    const currentColumnIndex = findCurrentColumnIndex(columns, idColumn);
+
+    const findPrevColumnId = () => {
+        const prevColumn = columns[currentColumnIndex - 1];
+
+        return prevColumn && prevColumn.id;
+    };
+
+    const findNextColumnId = () => {
+        const nextColumn = columns[currentColumnIndex + 1];
+
+        return nextColumn && nextColumn.id;
+    };
+
+    const moveTask = (newIdColumn) => {
+        if (!isColumnFull({ columns, tasks }, newIdColumn)) {
+            updateTask(id, { idColumn: newIdColumn });
+            showAlert(false);
+        } else {
+            showAlert(true);
+        }
+    };
+
+    const getPrevButton = () => (
         <Button
-            options={{
-                id: 'prev',
-                className: moveTaskButton.className,
-            }}
-            onClick={(e) =>
-                callback(e.currentTarget, {
-                    id,
-                    idColumn,
-                })
-            }
+            options={{ className: moveTaskButton.className }}
+            onClick={() => moveTask(findPrevColumnId(columns, idColumn))}
         >
             <FontAwesomeIcon icon={icon({ name: 'chevron-left' })} />
         </Button>
     );
 
-    const getNextButton = (callback) => (
+    const getNextButton = () => (
         <Button
-            options={{
-                id: 'next',
-                className: moveTaskButton.className,
-            }}
-            onClick={(e) =>
-                callback(e.currentTarget, {
-                    id,
-                    idColumn,
-                })
-            }
+            options={{ className: moveTaskButton.className }}
+            onClick={() => moveTask(findNextColumnId(columns, idColumn))}
         >
             <FontAwesomeIcon icon={icon({ name: 'chevron-right' })} />
         </Button>
@@ -63,9 +72,6 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
         </Button>
     );
 
-    const { columns } = useContext(ColumnsContext);
-    const { moveTask, removeTask } = useContext(TasksContext);
-
     return (
         <article className={styles.componentRoot}>
             <div className={styles.taskBody}>
@@ -74,8 +80,8 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
             </div>
             {getRemoveButton(removeTask)}
             <div className={styles.navButtons}>
-                {isNotFirstColumn(idColumn) && getPrevButton(moveTask)}
-                {isNotLastColumn(idColumn, columns) && getNextButton(moveTask)}
+                {findPrevColumnId() && getPrevButton()}
+                {findNextColumnId() && getNextButton()}
             </div>
         </article>
     );

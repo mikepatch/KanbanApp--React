@@ -13,7 +13,6 @@ import {
     getArrayWithNewData,
     getArrayWithoutSpecifiedItem,
     getInitialState,
-    getNewIdColumn,
     getNewStateItems,
     isColumnFull,
 } from './utilities/helpers';
@@ -42,12 +41,16 @@ function KanbanApp() {
     }, [tasks]);
 
     const handleAddTask = (data) => {
-        const firstColumnId = 1;
+        const firstColumnId = columns[0].id;
 
         if (!isColumnFull({ columns, tasks }, firstColumnId)) {
             changeState(
                 setTasks,
-                getArrayWithNewData(tasks, { id: uuid(), idColumn: firstColumnId, ...data }),
+                getArrayWithNewData(tasks, {
+                    id: uuid(),
+                    idColumn: firstColumnId,
+                    ...data,
+                }),
             );
         } else {
             changeState(setLimitAlertOpen, true);
@@ -55,7 +58,7 @@ function KanbanApp() {
     };
 
     const handleAddColumn = (data) => {
-        changeState(setColumns, getArrayWithNewData(columns, { id: columns.length + 1, ...data }));
+        changeState(setColumns, getArrayWithNewData(columns, { id: uuid(), ...data }));
     };
 
     const handleRemoveColumn = (idToRemove) => {
@@ -74,17 +77,6 @@ function KanbanApp() {
         changeState(setTasks, getNewStateItems(tasks, [idTask, propertiesToChange]));
     };
 
-    const handleMoveTask = (currentTarget, { id: idTask, idColumn }) => {
-        const newIdColumn = getNewIdColumn(currentTarget, idColumn, columns);
-
-        if (!isColumnFull({ columns, tasks }, newIdColumn)) {
-            handleUpdateTask(idTask, { idColumn: newIdColumn });
-            changeState(setLimitAlertOpen, false);
-        } else {
-            changeState(setLimitAlertOpen, true);
-        }
-    };
-
     const closeForm = () => {
         changeState(setTaskFormOpen, false);
         changeState(setColumnFormOpen, false);
@@ -96,8 +88,9 @@ function KanbanApp() {
         updateColumn: handleUpdateColumn,
     }));
     const tasksOptions = useMemo(() => ({
+        showAlert: setLimitAlertOpen,
         tasks,
-        moveTask: handleMoveTask,
+        updateTask: handleUpdateTask,
         removeTask: handleRemoveTask,
     }));
 
