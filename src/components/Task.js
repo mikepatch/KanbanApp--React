@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import Button from './Button';
 
-import { ColumnsContext, MoveTasksContext, RemoveTaskContext } from '../utilities/context';
+import { ColumnsContext, TasksContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
 import { isNotFirstColumn, isNotLastColumn } from '../utilities/helpers';
 
@@ -63,38 +63,21 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
         </Button>
     );
 
-    const { Consumer: MoveTasksConsumer } = MoveTasksContext;
-    const { Consumer: ColumnsConsumer } = ColumnsContext;
-    const { Consumer: RemoveTaskConsumer } = RemoveTaskContext;
+    const { columns } = useContext(ColumnsContext);
+    const { moveTask, removeTask } = useContext(TasksContext);
 
     return (
-        <MoveTasksConsumer>
-            {(handleMoveTask) => (
-                <RemoveTaskConsumer>
-                    {(handleRemoveTask) => (
-                        <ColumnsConsumer>
-                            {(columns) => (
-                                <article className={styles.componentRoot}>
-                                    <div className={styles.taskBody}>
-                                        <h3 className={styles.taskTitle}>{taskName}</h3>
-                                        <address className={styles.address}>
-                                            Added by {userName}
-                                        </address>
-                                    </div>
-                                    {getRemoveButton(handleRemoveTask)}
-                                    <div className={styles.navButtons}>
-                                        {isNotFirstColumn(idColumn) &&
-                                            getPrevButton(handleMoveTask)}
-                                        {isNotLastColumn(idColumn, columns) &&
-                                            getNextButton(handleMoveTask)}
-                                    </div>
-                                </article>
-                            )}
-                        </ColumnsConsumer>
-                    )}
-                </RemoveTaskConsumer>
-            )}
-        </MoveTasksConsumer>
+        <article className={styles.componentRoot}>
+            <div className={styles.taskBody}>
+                <h3 className={styles.taskTitle}>{taskName}</h3>
+                <address className={styles.address}>Added by {userName}</address>
+            </div>
+            {getRemoveButton(removeTask)}
+            <div className={styles.navButtons}>
+                {isNotFirstColumn(idColumn) && getPrevButton(moveTask)}
+                {isNotLastColumn(idColumn, columns) && getNextButton(moveTask)}
+            </div>
+        </article>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import Header from './components/Header';
@@ -7,14 +7,7 @@ import Form from './components/Form/Form';
 import Modal from './components/Modal';
 
 import useStorage from './utilities/hooks';
-import {
-    ChangeColumnColorContext,
-    ColumnsContext,
-    MoveTasksContext,
-    RemoveColumnContext,
-    RemoveTaskContext,
-    TasksContext,
-} from './utilities/context';
+import { ColumnsContext, TasksContext } from './utilities/context';
 import {
     changeState,
     getArrayWithNewData,
@@ -97,58 +90,54 @@ function KanbanApp() {
         changeState(setColumnFormOpen, false);
     };
 
-    const { Provider: ColumnsProvider } = ColumnsContext;
-    const { Provider: TasksProvider } = TasksContext;
-    const { Provider: MoveTasksProvider } = MoveTasksContext;
-    const { Provider: RemoveColumnProvider } = RemoveColumnContext;
-    const { Provider: RemoveTaskProvider } = RemoveTaskContext;
-    const { Provider: ChangeColumnColorProvider } = ChangeColumnColorContext;
+    const columnsOptions = useMemo(() => ({
+        columns,
+        removeColumn: handleRemoveColumn,
+        updateColumn: handleUpdateColumn,
+    }));
+    const tasksOptions = useMemo(() => ({
+        tasks,
+        moveTask: handleMoveTask,
+        removeTask: handleRemoveTask,
+    }));
 
     return (
-        <ColumnsProvider value={columns}>
-            <RemoveColumnProvider value={handleRemoveColumn}>
-                <TasksProvider value={tasks}>
-                    <MoveTasksProvider value={handleMoveTask}>
-                        <RemoveTaskProvider value={handleRemoveTask}>
-                            <ChangeColumnColorProvider value={handleUpdateColumn}>
-                                <div className={styles.componentRoot}>
-                                    <Header
-                                        showAddTaskForm={() => setTaskFormOpen(true)}
-                                        showAddColumnForm={() => setColumnFormOpen(true)}
-                                    />
-                                    <main>
-                                        <Board />
-                                    </main>
-                                </div>
-                                {isTaskFormOpen && (
-                                    <Form
-                                        options={formsOptions.addTaskForm}
-                                        closeForm={closeForm}
-                                        onSubmit={handleAddTask}
-                                    />
-                                )}
-                                {isColumnFormOpen && (
-                                    <Form
-                                        options={formsOptions.addColumnForm}
-                                        closeForm={closeForm}
-                                        onSubmit={handleAddColumn}
-                                    />
-                                )}
-                                {isLimitAlertOpen && (
-                                    <Modal
-                                        data={{
-                                            title: 'Column is full!',
-                                            text: 'You have reached the maximum number of tasks.',
-                                        }}
-                                        closeModal={() => setLimitAlertOpen(false)}
-                                    />
-                                )}
-                            </ChangeColumnColorProvider>
-                        </RemoveTaskProvider>
-                    </MoveTasksProvider>
-                </TasksProvider>
-            </RemoveColumnProvider>
-        </ColumnsProvider>
+        <ColumnsContext.Provider value={columnsOptions}>
+            <TasksContext.Provider value={tasksOptions}>
+                <div className={styles.componentRoot}>
+                    <Header
+                        showAddTaskForm={() => setTaskFormOpen(true)}
+                        showAddColumnForm={() => setColumnFormOpen(true)}
+                    />
+                    <main>
+                        <Board />
+                    </main>
+                </div>
+                {isTaskFormOpen && (
+                    <Form
+                        options={formsOptions.addTaskForm}
+                        closeForm={closeForm}
+                        onSubmit={handleAddTask}
+                    />
+                )}
+                {isColumnFormOpen && (
+                    <Form
+                        options={formsOptions.addColumnForm}
+                        closeForm={closeForm}
+                        onSubmit={handleAddColumn}
+                    />
+                )}
+                {isLimitAlertOpen && (
+                    <Modal
+                        data={{
+                            title: 'Column is full!',
+                            text: 'You have reached the maximum number of tasks.',
+                        }}
+                        closeModal={() => setLimitAlertOpen(false)}
+                    />
+                )}
+            </TasksContext.Provider>
+        </ColumnsContext.Provider>
     );
 }
 

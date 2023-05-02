@@ -11,7 +11,7 @@ const buttonsOptions = {
     addTaskButton: { id: 'addTask', className: buttonStyles, text: 'Add task' },
     addColumnButton: { id: 'addColumn', className: buttonStyles, text: 'Add column' },
     modalCloseButton: { className: buttonStyles, text: 'Close' },
-    removeColumn: { className: removeColumnButtonStyles },
+    removeColumnButton: { className: removeColumnButtonStyles },
     moveTaskButton: { className: moveTaskButtonStyles },
     removeTaskButton: { className: removeTaskButtonStyles },
 };

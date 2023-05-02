@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { ChangeColumnColorContext } from '../utilities/context';
+import { ColumnsContext } from '../utilities/context';
 
 function ColorLabel({ data: { id, columnColor } }) {
     const styles = {
@@ -9,28 +9,25 @@ function ColorLabel({ data: { id, columnColor } }) {
         input: 'absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer',
     };
     const [color, setColor] = useState(columnColor);
-    const { Consumer: ChangeColumnColorConsumer } = ChangeColumnColorContext;
+
+    const { updateColumn } = useContext(ColumnsContext);
 
     return (
-        <ChangeColumnColorConsumer>
-            {(handleChangeColumnColor) => (
-                <div
-                    className={styles.rootElement}
-                    style={{ backgroundColor: `${columnColor}` }}
-                >
-                    <input
-                        className={styles.input}
-                        type="color"
-                        onChange={(e) => setColor(e.target.value)}
-                        onBlur={() =>
-                            handleChangeColumnColor(id, {
-                                columnColor: color,
-                            })
-                        }
-                    />
-                </div>
-            )}
-        </ChangeColumnColorConsumer>
+        <div
+            className={styles.rootElement}
+            style={{ backgroundColor: `${columnColor}` }}
+        >
+            <input
+                className={styles.input}
+                type="color"
+                onChange={(e) => setColor(e.target.value)}
+                onBlur={() =>
+                    updateColumn(id, {
+                        columnColor: color,
+                    })
+                }
+            />
+        </div>
     );
 }
 
