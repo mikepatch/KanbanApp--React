@@ -41,14 +41,14 @@ function KanbanApp() {
     }, [tasks]);
 
     const handleAddTask = (data) => {
-        const firstColumnId = columns[0].id;
+        const [firstColumn] = columns;
 
-        if (!isColumnFull({ columns, tasks }, firstColumnId)) {
+        if (!isColumnFull({ columns, tasks }, firstColumn.id)) {
             changeState(
                 setTasks,
                 getArrayWithNewData(tasks, {
                     id: uuid(),
-                    idColumn: firstColumnId,
+                    idColumn: firstColumn.id,
                     ...data,
                 }),
             );

@@ -33,10 +33,21 @@ export const isColumnFull = ({ columns, tasks }, columnId) => {
     return true;
 };
 
-export const findCurrentColumnIndex = (columns, idColumn) => {
-    const currentColumn = columns.find((column) => column.id === idColumn);
+export const findCurrentColumnIndex = (columns, idColumn) =>
+    columns.findIndex((column) => column.id === idColumn);
 
-    return columns.indexOf(currentColumn);
+export const findPrevColumnId = (columns, idColumn) => {
+    const currentColumnIndex = findCurrentColumnIndex(columns, idColumn);
+    const prevColumn = columns[currentColumnIndex - 1];
+
+    return prevColumn && prevColumn.id;
+};
+
+export const findNextColumnId = (columns, idColumn) => {
+    const currentColumnIndex = findCurrentColumnIndex(columns, idColumn);
+    const nextColumn = columns[currentColumnIndex + 1];
+
+    return nextColumn && nextColumn.id;
 };
 
 // Modal
