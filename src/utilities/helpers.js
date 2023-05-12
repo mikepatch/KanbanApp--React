@@ -21,7 +21,7 @@ export const getTasksCountInColumn = (tasks, columnId) =>
 export const isColumnEmpty = (idColumn, tasks) => getTasksCountInColumn(tasks, idColumn) === 0;
 
 export const isColumnFull = ({ columns, tasks }, columnId) =>
-    getTasksCountInColumn(tasks, columnId) === getLimitOfTasksInColumn(columns, columnId);
+    !(getTasksCountInColumn(tasks, columnId) < getLimitOfTasksInColumn(columns, columnId));
 
 export const getNewStateItems = (stateItems, [idToUpdate, propertiesToChange]) =>
     stateItems.map((item) => (item.id === idToUpdate ? { ...item, ...propertiesToChange } : item));
