@@ -1,0 +1,28 @@
+export default {
+    modalRoot: [
+        'flex',
+        'justify-center',
+        'items-center',
+        'fixed',
+        'top-0',
+        'left-0',
+        'w-full',
+        'h-screen',
+        'bg-black',
+        'bg-opacity-60',
+        'z-50',
+    ].join(' '),
+    wrapper: [
+        'flex',
+        'flex-col',
+        'gap-6',
+        'py-8',
+        'px-10',
+        'bg-secondary-dark',
+        'drop-shadow-sm',
+        'rounded-md',
+        'w-11/12',
+        'max-w-md',
+        'animate-slide-from-b',
+    ].join(' '),
+};

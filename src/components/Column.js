@@ -5,6 +5,7 @@ import List from './List';
 import Task from './Task';
 
 import { TasksContext } from '../utilities/context';
+import styles from './Column.styles';
 
 function Column({ data: { id, ...properties } }) {
     const { tasks } = useContext(TasksContext);
@@ -21,13 +22,8 @@ function Column({ data: { id, ...properties } }) {
             ),
     );
 
-    const styles = {
-        column: 'flex flex-col mx-auto md:mx-0 max-w-md w-full',
-        list: 'flex flex-col gap-4 py-4 w-full',
-    };
-
     return (
-        <li className={styles.column}>
+        <li className={styles.root}>
             <ColumnHeader data={{ tasks, id, ...properties }} />
             <List className={styles.list}>{tasksList}</List>
         </li>

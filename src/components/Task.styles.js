@@ -1,0 +1,25 @@
+export default {
+    componentRoot: [
+        'flex',
+        'flex-col',
+        'gap-2',
+        'bg-zinc-600',
+        'p-4',
+        'px-6',
+        'rounded-md',
+        'drop-shadow-sm',
+        'relative',
+        'animate-slide-from-l-sm',
+    ].join(' '),
+    taskBody: [
+        'font-bold',
+        'text-left',
+        'cursor-pointer',
+        'hover:text-purple-500',
+        'ease-in-out',
+        'duration-100',
+    ].join(' '),
+    taskTitle: ['text-xl'].join(' '),
+    address: ['text-right', 'text-neutral-400'].join(' '),
+    navButtons: ['flex', 'gap-2', 'justify-center mt-2'].join(' '),
+};

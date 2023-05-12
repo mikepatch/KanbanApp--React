@@ -12,9 +12,10 @@ import {
 } from './utilities/helpers';
 import FormValidator from './utilities/FormValidator';
 import { accessibleOnClick } from '../../utilities/helpers';
+import styles from './Form.styles';
 
 function Form({
-    options: { formModalStyles, formElementStyles, formButtonStyles, title, fields },
+    options: { title, fields },
     closeForm,
     onSubmit,
 }) {
@@ -48,7 +49,7 @@ function Form({
             id,
             name,
             ...settings,
-            errorsMessages: formErrors[name] && formErrors[name] !== 0 && formErrors[name],
+            errorMessages: formErrors[name] && formErrors[name] !== 0 && formErrors[name],
             value: inputValues[name],
             onChange: dispatchInputValues,
         };
@@ -65,16 +66,16 @@ function Form({
             <aside
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...accessibleOnClick(closeForm)}
-                className={formModalStyles}
+                className={styles.formModalStyles}
             >
                 <form
                     noValidate
-                    className={formElementStyles}
+                    className={styles.formElementStyles}
                     onSubmit={(e) => handleSubmit(e)}
                 >
                     <h2>{title}</h2>
                     {formFields}
-                    <Button options={{ type: 'submit', className: formButtonStyles }}>Save</Button>
+                    <Button options={{ type: 'submit', className: styles.formButtonStyles }}>Save</Button>
                 </form>
             </aside>
         </FocusTrap>

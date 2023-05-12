@@ -18,9 +18,9 @@ import {
 } from './utilities/helpers';
 import initialData from './utilities/initialData';
 import formsOptions from './components/Form/utilities/formsOptions';
+import styles from './KanbanApp.styles';
 
 function KanbanApp() {
-    const styles = { componentRoot: 'bg-gradient-to-b from-main-bg to-main-bg-dark min-h-screen' };
     const [columnsStorage, setColumnsStorage] = useStorage('columns');
     const [tasksStorage, setTasksStorage] = useStorage('tasks');
 
@@ -97,7 +97,7 @@ function KanbanApp() {
     return (
         <ColumnsContext.Provider value={columnsOptions}>
             <TasksContext.Provider value={tasksOptions}>
-                <div className={styles.componentRoot}>
+                <div className={styles.root}>
                     <Header
                         showAddTaskForm={() => setTaskFormOpen(true)}
                         showAddColumnForm={() => setColumnFormOpen(true)}
