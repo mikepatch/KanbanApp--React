@@ -6,6 +6,7 @@ function Textarea({ options: { style, id, rows, ...attributes }, onChange }) {
         <textarea
             style={style && style}
             id={id}
+            rows={rows}
             {...attributes}
             onChange={onChange}
         />

@@ -4,6 +4,7 @@ import List from './List';
 import Column from './Column';
 
 import { ColumnsContext } from '../utilities/context';
+import styles from './Board.styles';
 
 function Board() {
     const { columns } = useContext(ColumnsContext);
@@ -15,11 +16,7 @@ function Board() {
         />
     ));
 
-    const styles = {
-        board: 'md:flex justify-center gap-4 px-6 mx-auto mt-6',
-    };
-
-    return <List className={styles.board}>{columnsItems}</List>;
+    return <List className={styles.list}>{columnsItems}</List>;
 }
 
 export default Board;

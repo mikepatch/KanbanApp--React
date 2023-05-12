@@ -7,18 +7,10 @@ import Button from './Button';
 import { ColumnsContext, TasksContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
 import { findNextColumnId, findPrevColumnId, isColumnFull } from '../utilities/helpers';
+import styles from './Task.styles';
 
 function Task({ data: { id, idColumn, taskName, userName } }) {
     const { moveTaskButton, removeTaskButton } = buttonsOptions;
-    const styles = {
-        componentRoot:
-            'flex flex-col gap-2 bg-zinc-600 p-4 px-6 rounded-md drop-shadow-sm relative animate-slide-from-l-sm',
-        taskBody:
-            'font-bold text-left cursor-pointer hover:text-purple-500 ease-in-out duration-100',
-        taskTitle: 'text-xl',
-        address: 'text-right text-neutral-400',
-        navButtons: 'flex gap-2 justify-center mt-2',
-    };
 
     const { columns } = useContext(ColumnsContext);
     const { showAlert, tasks, updateTask, removeTask } = useContext(TasksContext);

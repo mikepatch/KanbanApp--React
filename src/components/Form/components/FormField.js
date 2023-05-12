@@ -1,33 +1,33 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+
 import Input from './Input';
 import Textarea from './Textarea';
 
+import styles from './FormField.styles';
+
 function FormField({
-    options: { id, label, type, textarea, errorsMessages, rows, onChange, ...attributes },
+    options: { id, label, type, textarea, errorMessages, rows, onChange, ...attributes },
 }) {
-    const styles = {
-        rootElement: 'flex flex-col gap-1',
-        errorInfo: 'text-red-500 font-bold animate-pulse',
-        inputErrorStyles: errorsMessages && errorsMessages.length > 0 ? { borderColor: 'red' } : {},
-    };
+    const errorInputStyles =
+        errorMessages && errorMessages.length > 0 ? { borderColor: 'red' } : {};
 
     return (
-        <div className={styles.rootElement}>
+        <div className={styles.root}>
             <label htmlFor={id}>{label}</label>
             {textarea ? (
                 <Textarea
-                    options={{ style: styles.inputErrorStyles, id, rows, ...attributes }}
+                    options={{ style: errorInputStyles, id, rows, ...attributes }}
                     onChange={(e) => onChange(e.target)}
                 />
             ) : (
                 <Input
-                    options={{ style: styles.inputErrorStyles, id, type, ...attributes }}
+                    options={{ style: errorInputStyles, id, type, ...attributes }}
                     onChange={(e) => onChange(e.target)}
                 />
             )}
-            {errorsMessages && errorsMessages.length !== 0 && (
-                <small className={styles.errorInfo}>{errorsMessages}</small>
+            {errorMessages && errorMessages.length !== 0 && (
+                <small className={styles.errorInfo}>{errorMessages}</small>
             )}
         </div>
     );

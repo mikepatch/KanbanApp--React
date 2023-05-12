@@ -8,20 +8,16 @@ import ColumnCounter from './ColumnCounter';
 
 import { ColumnsContext } from '../utilities/context';
 import buttonsOptions from '../utilities/buttonsOptions';
+import styles from './ColumnHeader.styles';
 
 function ColumnHeader({ data: { tasks, id, columnColor, columnName, limit } }) {
-    const styles = {
-        headerRoot: 'relative gap-2 flex justify-start p-3 text-center w-full',
-        title: 'text-2xl lg:text-3xl',
-    };
-
     const { removeColumn } = useContext(ColumnsContext);
     const { removeColumnButton } = buttonsOptions;
 
     return (
-        <header className={styles.headerRoot}>
+        <header className={styles.root}>
             <ColorLabel data={{ id, columnColor }} />
-            <h2 className={styles.title}>{columnName}</h2>
+            <h2 className={styles.h2}>{columnName}</h2>
             <Button
                 options={removeColumnButton}
                 onClick={() => removeColumn(id)}

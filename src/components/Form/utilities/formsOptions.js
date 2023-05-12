@@ -1,24 +1,16 @@
 /* eslint-disable quotes */
 const styles = {
-    formModalStyles:
-        'flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black bg-opacity-60 z-40',
-    formElementStyles:
-        'flex flex-col gap-6 py-8 px-12 bg-secondary-dark drop-shadow-sm rounded-md w-11/12 max-w-md animate-slide-from-b',
     textInputStyles:
         'border border-secondary p-2 rounded-md text-white bg-transparent focus-visible:outline-primary focus-visible:outline focus-visible:outline-2',
     colorInputStyles: 'bg-transparent',
-    formButtonStyles:
-        'bg-primary hover:bg-primary-dark py-1 px-4 rounded-full ease-in-out duration-100 cursor-pointer w-full',
 };
 
-const { formModalStyles, formElementStyles, textInputStyles, colorInputStyles, formButtonStyles } =
+const {textInputStyles, colorInputStyles } =
     styles;
+    
 const formsOptions = {
     addTaskForm: {
         title: 'Add new task',
-        formModalStyles,
-        formElementStyles,
-        formButtonStyles,
         fields: [
             {
                 label: 'Task name',
@@ -60,9 +52,6 @@ const formsOptions = {
     },
     addColumnForm: {
         title: 'Add new column',
-        formModalStyles,
-        formElementStyles,
-        formButtonStyles,
         fields: [
             {
                 label: 'Column Name',

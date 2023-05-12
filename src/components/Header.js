@@ -5,15 +5,11 @@ import Logo from './Logo';
 import List from './List';
 
 import buttonsOptions from '../utilities/buttonsOptions';
+import styles from './Header.styles';
 
 function Header({ showAddTaskForm, showAddColumnForm }) {
-    const styles = {
-        headerRoot:
-            'sticky z-40 top-0 items-center flex justify-between px-4 py-6 md:px-8 bg-secondary-dark drop-shadow-md',
-        navList: 'flex gap-4',
-    };
     const { addTaskButton, addColumnButton } = buttonsOptions;
-    
+
     addTaskButton.onClick = showAddTaskForm;
     addColumnButton.onClick = showAddColumnForm;
 
@@ -30,10 +26,10 @@ function Header({ showAddTaskForm, showAddColumnForm }) {
     ));
 
     return (
-        <header className={styles.headerRoot}>
+        <header className={styles.root}>
             <Logo />
             <nav>
-                <List className={styles.navList}>{navItems}</List>
+                <List className={styles.list}>{navItems}</List>
             </nav>
         </header>
     );
