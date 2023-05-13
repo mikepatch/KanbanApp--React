@@ -5,7 +5,7 @@
 
 # KanbanApp
 
-See the live version of [KanbanApp](https://).
+See the live version of [KanbanApp](https://mikepatch.github.io/KanbanApp--React/build/).
 
 KanbanApp is a project developed to practice modern React, including functional components, hooks, and context. It's an application for managing tasks using the Kanban methodology.
 
