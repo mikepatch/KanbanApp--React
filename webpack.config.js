@@ -1,46 +1,34 @@
 const path = require('path');
-// importuję bibliotękę [path] z [node.js]
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-// importuję odpowiedni plugin
+
 module.exports = {
     entry: './src/index.js',
-    // definiuje plik wejściowy
     mode: 'development',
-    // definiuję tryb działania
     output: {
         path: path.resolve(__dirname, 'build'),
-        // definiuje ścieżką wyjściową
-        filename: 'index.min.js',
-        // definiuję nazwę pliku wyjściowego
+        filename: 'index.[contenthash].min.js',
+        clean: true,
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                // określam jakie pliki
-                // będą brane pod uwagę
                 exclude: /node_modules/,
-                // określam wykluczenia
                 use: 'babel-loader',
-                // określam jaki [loader]
-                // ma być wykorzystany
             },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
         ],
-        // obecnie brak dodatkowych ustawień
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            // wskazuje plik źródłowy
             filename: 'index.html',
-            // określan nazwę dla pliku
+            favicon: './src/favicon.ico',
         }),
         new ESLintPlugin(),
     ],
 };
-// eksportuję ustawienia dla webpack-a

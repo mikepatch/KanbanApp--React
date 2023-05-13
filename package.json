@@ -1,15 +1,18 @@
 {
   "name": "kanban-app",
   "version": "1.0.1",
-  "description": "",
+  "description": "Application for managing tasks using the Kanban methodology",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --open",
-    "build": "webpack --mode production"
+    "build": "webpack --env production"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "kanban",
+    "tasks manager"
+  ],
+  "author": "mikepatch",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.19.6",
@@ -18,6 +21,7 @@
     "@babel/preset-react": "^7.18.6",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^9.0.1",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",

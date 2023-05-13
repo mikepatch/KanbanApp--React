@@ -24,6 +24,15 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
         }
     };
 
+    const renderRemoveButton = (callback) => (
+        <Button
+            options={{ className: removeTaskButton.className }}
+            onClick={() => callback(id)}
+        >
+            <FontAwesomeIcon icon={icon({ name: 'xmark' })} />
+        </Button>
+    );
+
     const getPrevButton = () => {
         const prevColumnId = findPrevColumnId(columns, idColumn);
 
@@ -58,13 +67,11 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
         return null;
     };
 
-    const getRemoveButton = (callback) => (
-        <Button
-            options={{ className: removeTaskButton.className }}
-            onClick={() => callback(id)}
-        >
-            <FontAwesomeIcon icon={icon({ name: 'xmark' })} />
-        </Button>
+    const renderButtonGroup = () => (
+        <>
+            {getPrevButton()}
+            {getNextButton()}
+        </>
     );
 
     return (
@@ -73,11 +80,8 @@ function Task({ data: { id, idColumn, taskName, userName } }) {
                 <h3 className={styles.taskTitle}>{taskName}</h3>
                 <address className={styles.address}>Added by {userName}</address>
             </div>
-            {getRemoveButton(removeTask)}
-            <div className={styles.navButtons}>
-                {getPrevButton()}
-                {getNextButton()}
-            </div>
+            {renderRemoveButton(removeTask)}
+            <div className={styles.navButtons}>{renderButtonGroup()}</div>
         </article>
     );
 }

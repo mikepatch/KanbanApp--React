@@ -1,13 +1,19 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-function Input({ options: { style, id, type, ...attributes }, onChange }) {
+function Input({
+    attributes: { className, id, name, placeholder, type, value },
+    errorStyles,
+    onChange,
+}) {
     return (
         <input
-            style={style && style}
+            style={errorStyles && errorStyles}
+            className={`${className}`}
             id={id}
+            name={name}
+            placeholder={placeholder}
             type={type}
-            {...attributes}
+            value={value}
             onChange={onChange}
         />
     );

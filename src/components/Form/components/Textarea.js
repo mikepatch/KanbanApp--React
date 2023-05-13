@@ -1,13 +1,19 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-function Textarea({ options: { style, id, rows, ...attributes }, onChange }) {
+function Textarea({
+    attributes: { className, id, name, placeholder, rows, value },
+    errorStyles,
+    onChange,
+}) {
     return (
         <textarea
-            style={style && style}
+            style={errorStyles && errorStyles}
+            className={`${className}`}
             id={id}
+            name={name}
+            placeholder={placeholder}
             rows={rows}
-            {...attributes}
+            value={value}
             onChange={onChange}
         />
     );

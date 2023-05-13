@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import Input from './Input';
@@ -7,25 +6,54 @@ import Textarea from './Textarea';
 import styles from './FormField.styles';
 
 function FormField({
-    options: { id, label, type, textarea, errorMessages, rows, onChange, ...attributes },
+    options: {
+        label,
+        className,
+        id,
+        name,
+        placeholder,
+        type,
+        textarea,
+        rows,
+        value,
+        onChange,
+        errorMessages,
+    },
 }) {
     const errorInputStyles =
         errorMessages && errorMessages.length > 0 ? { borderColor: 'red' } : {};
+    const attributes = {
+        className,
+        id,
+        name,
+        placeholder,
+        type,
+        value,
+    };
+
+    const getTextArea = () => (
+        <Textarea
+            attributes={attributes}
+            errorStyles={errorInputStyles}
+            rows={rows}
+            onChange={(e) => onChange(e.target)}
+        />
+    );
+
+    const getInput = () => (
+        <Input
+            attributes={attributes}
+            errorStyles={errorInputStyles}
+            onChange={(e) => onChange(e.target)}
+        />
+    );
+
+    const renderInputs = () => (textarea ? getTextArea() : getInput());
 
     return (
         <div className={styles.root}>
             <label htmlFor={id}>{label}</label>
-            {textarea ? (
-                <Textarea
-                    options={{ style: errorInputStyles, id, rows, ...attributes }}
-                    onChange={(e) => onChange(e.target)}
-                />
-            ) : (
-                <Input
-                    options={{ style: errorInputStyles, id, type, ...attributes }}
-                    onChange={(e) => onChange(e.target)}
-                />
-            )}
+            {renderInputs()}
             {errorMessages && errorMessages.length !== 0 && (
                 <small className={styles.errorInfo}>{errorMessages}</small>
             )}

@@ -81,6 +81,45 @@ function KanbanApp() {
         changeState(setTaskFormOpen, false);
         changeState(setColumnFormOpen, false);
     };
+    
+    const renderForm = () => {
+        if (isTaskFormOpen) {
+            return (
+                <Form
+                    options={formsOptions.addTaskForm}
+                    closeForm={closeForm}
+                    onSubmit={handleAddTask}
+                />
+            );
+        }
+        if (isColumnFormOpen) {
+            return (
+                <Form
+                    options={formsOptions.addColumnForm}
+                    closeForm={closeForm}
+                    onSubmit={handleAddColumn}
+                />
+            );
+        }
+
+        return null;
+    };
+
+    const renderLimitAlertModal = () => {
+        if (isLimitAlertOpen) {
+            return (
+                <Modal
+                    data={{
+                        title: 'Column is full!',
+                        text: 'You have reached the maximum number of tasks.',
+                    }}
+                    closeModal={() => setLimitAlertOpen(false)}
+                />
+            );
+        }
+
+        return null;
+    };
 
     const columnsOptions = useMemo(() => ({
         columns,
@@ -106,29 +145,8 @@ function KanbanApp() {
                         <Board />
                     </main>
                 </div>
-                {isTaskFormOpen && (
-                    <Form
-                        options={formsOptions.addTaskForm}
-                        closeForm={closeForm}
-                        onSubmit={handleAddTask}
-                    />
-                )}
-                {isColumnFormOpen && (
-                    <Form
-                        options={formsOptions.addColumnForm}
-                        closeForm={closeForm}
-                        onSubmit={handleAddColumn}
-                    />
-                )}
-                {isLimitAlertOpen && (
-                    <Modal
-                        data={{
-                            title: 'Column is full!',
-                            text: 'You have reached the maximum number of tasks.',
-                        }}
-                        closeModal={() => setLimitAlertOpen(false)}
-                    />
-                )}
+                {renderForm()}
+                {renderLimitAlertModal()}
             </TasksContext.Provider>
         </ColumnsContext.Provider>
     );
